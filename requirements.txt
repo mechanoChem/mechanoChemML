@@ -7,7 +7,6 @@ pandas
 scikit-learn 
 seaborn 
 jupyter 
-sphinx-autoapi
 six
 natsort
 numexpr
