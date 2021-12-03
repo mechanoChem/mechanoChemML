@@ -40,7 +40,7 @@ GNU Lesser General Public License (LGPL) v3.0. Please see the file LICENSE for d
 
 # Documentation and usage 
 
-The documentation of this library is available at https://mechanochemml.readthedocs.io/, where one can find instructions of using the provided classes, functions, and workflows provided by the mechanoChemML library.
+The documentation of this library is available at https://mechanochemml.readthedocs.io/en/latest/index.html, where one can find instructions of using the provided classes, functions, and workflows provided by the mechanoChemML library.
 
 To create a local copy of the documentation, one can use
 
