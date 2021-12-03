@@ -1,0 +1,153 @@
+{
+    "comment": "This is a sample input file. Unrecognized attributes (like this one) are ignored.",
+    "data": {
+        "max_pass": 1000000,
+        "measurements": [
+            {
+                "quantity": "formation_energy"
+            },
+            {
+                "precision": 0.001,
+                "quantity": "potential_energy"
+            },
+            {
+                "quantity": "atom_frac"
+            },
+            {
+                "quantity": "site_frac"
+            },
+            {
+                "precision": 0.0001,
+                "quantity": "comp"
+            },
+            {
+                "quantity": "comp_n"
+            },
+            {
+                "quantity": "non_zero_eci_correlations"
+            },
+            {
+                "quantity": "op_sublat_comp"
+            },
+            {
+                "quantity": "op_val"
+            }
+        ],
+        "sample_by": "pass",
+        "sample_period": 1,
+        "storage": {
+            "output_format": "json",
+            "write_observations": true,
+            "write_trajectory": false
+        }
+    },
+    "driver": {
+        "conditions_list": [
+        ],
+        "initial_conditions": {
+            "kappa": [
+                [
+                    -0.2193939393939394
+                ],
+                [
+                    0.016
+                ],
+                [
+                    0.016
+                ],
+                [
+                    0.016
+                ]
+            ],
+            "phi": [
+                [
+                    5.0
+                ],
+                [
+                    3.0
+                ],
+                [
+                    3.0
+                ],
+                [
+                    3.0
+                ]
+            ],
+            "temperature": 600.0,
+            "tolerance": 0.001
+        },
+        "mode": "single_points"
+    },
+    "initialization": {
+        "bset": "default",
+        "calctype": "default",
+        "clex": "formation_energy",
+        "eci": "default",
+        "matrix": [
+            [
+                -8,
+                8,
+                8
+            ],
+            [
+                8,
+                -8,
+                8
+            ],
+            [
+                8,
+                8,
+                -8
+            ]
+        ],
+        "motif": {
+            "configname": "SCEL1_1_1_1_0_0_0/0"
+        },
+        "op_cell_matrix": [
+            [
+                -1,
+                1,
+                1
+            ],
+            [
+                1,
+                -1,
+                1
+            ],
+            [
+                1,
+                1,
+                -1
+            ]
+        ],
+        "op_supercell_volume": 4,
+        "op_trans_matrix": [
+            [
+                0.25,
+                0.25,
+                0.25,
+                0.25
+            ],
+            [
+                0.25,
+                0.25,
+                -0.25,
+                -0.25
+            ],
+            [
+                0.25,
+                -0.25,
+                -0.25,
+                0.25
+            ],
+            [
+                0.25,
+                -0.25,
+                0.25,
+                -0.25
+            ]
+        ],
+        "ref": "default"
+    },
+    "type": "grand_canonical"
+}

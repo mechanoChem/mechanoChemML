@@ -1,0 +1,78 @@
+ {
+    "comment" : "This is a sample input file. Unrecognized attributes (like the ones prepended with '_') are ignored.",
+    "debug" : false,
+    "ensemble" : "grand_canonical",
+    "method" : "metropolis",
+    "model" : {
+	"formation_energy" : "formation_energy"
+    },
+    "_supercell" : [
+	[-16, 12,  4],
+	[  8,  0, 16],
+	[  8, 12, -8]
+    ],
+    "supercell" : [
+	[ 24, 12,  0],
+	[  0, 12, 24],
+	[  0,-12,  0]
+    ],
+    "data" : {
+	"sample_by" : "pass",
+	"sample_period" : 1,
+	"_max_pass" : 1,
+	"_min_pass" : 1000,
+	"confidence" : 0.95,
+	"_equilibration_passes_each_run" : 1000,
+	"_N_pass" : 32000,
+	"measurements" : [ 
+	    { 
+		"quantity" : "formation_energy"
+	    },
+	    { 
+		"quantity" : "potential_energy"
+	    },
+	    { 
+		"quantity" : "atom_frac"
+	    },
+	    { 
+		"quantity" : "site_frac"
+	    },
+	    { 
+		"quantity" : "order_param",
+		"precision" : 0.005
+	    },
+	    { 
+		"quantity" : "comp"
+	    },
+	    { 
+		"quantity" : "comp_n"
+	    },
+	    {
+		"quantity" : "non_zero_eci_correlations"
+	    }
+	],
+	"storage" : {
+	    "write_observations" : false,
+	    "write_trajectory" : false,
+	    "output_format" : ["csv", "json"]
+	},
+	"_enumeration": {
+	    "check" : "eq(1,1)",
+	    "metric" : "clex_hull_dist(ALL)",
+	    "insert_canonical" : true,
+	    "check_existence" : true,
+	    "N_halloffame" : 100,
+	    "sample_mode" : "on_sample"
+	}
+    },
+    "driver" : {
+	"mode" : "custom",
+	"dependent_runs" : false, 
+	"motif" : {
+	    "_configname" : "restricted_auto",
+	    "_configname" : "SCEL3_3_1_1_0_2_2/0",
+	    "configdof" : "../../disordered.json"
+	},
+	"custom_conditions" : []
+    }
+}

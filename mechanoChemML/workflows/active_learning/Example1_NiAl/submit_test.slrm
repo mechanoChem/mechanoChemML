@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+#SBATCH -p shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --mem=5G
+#SBATCH -t 0:30:00
+#SBATCH -J cp_sampling_LCO
+#SBATCH -A TG-MCH200011
+#SBATCH -o output-%j.e
+#SBATCH -e errors-%j.e
+#SBATCH --export=ALL
+
+python -u ~/mechanochemml-release/mechanoChemML/workflows/active_learning/Example1_NiAl/main_test.py

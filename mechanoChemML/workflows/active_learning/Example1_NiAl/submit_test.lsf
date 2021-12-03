@@ -1,0 +1,15 @@
+#!/bin/bash
+#
+#BSUB -W 96:00                	# wall time
+#BSUB -n 1
+#BSUB -R rusage[mem=5000] 	# amount of total memory in MB for all processes
+#BSUB -R "span[ptile=1]"	# number of processes
+#BSUB -R "affinity[core(1):cpubind=core:distribute=balance]" # bind 1 core per process #BSUB -R "select[ngpus>0] rusage[ngpus_excl_p=1]"
+#BSUB -M 1000                   # amount of memory in MB per process
+#BSUB -J "cp_sampling"	# job name
+#BSUB -e errors.%J      	# error file name in which %J is replaced by the job ID
+#BSUB -o output.%J      	# output file name in which %J is replaced by the job ID
+#BSUB -q gpu_p100			# choose the queue to use: gpu_p100, normal or large_memory #BSUB -m "gpu-cn011" 
+
+export CUDA_VISIBLE_DEVICES=''
+~/mechanochemml-release/mechanoChemML/workflows/active_learning/Example1_NiAl/main_test.py
