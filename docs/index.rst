@@ -42,7 +42,7 @@ Cite mechanoChemML
 ==================
 If you find this code useful in your research, please consider citing:
 
-  Author List (2021), mechanoChemML, arXiv preprint arXiv:xxxxx.xxxxx.
+  X. Zhang, G.H. Teichert, Z. Wang, M. Duschenes, S. Srivastava, A. Sunderarajan, E. Livingston, K. Garikipati (2021), mechanoChemML: A software library for machine learning in computational materials physics, arXiv preprint `arXiv:2112.04960 <https://arxiv.org/abs/2112.04960>`_.
 
 .. toctree::
    :caption: mechanoChemML
