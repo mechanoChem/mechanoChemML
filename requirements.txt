@@ -7,7 +7,7 @@ pandas
 scikit-learn 
 natsort
 keras==2.3.1
-tensorflow==2.5.1
+tensorflow==2.5.3
 tensorflow-probability==0.13.0
 sobol-seq
 vtk
