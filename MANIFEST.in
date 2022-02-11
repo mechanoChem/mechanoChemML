@@ -1,0 +1,13 @@
+include *.txt
+recursive-include mechanoChemML *.csv
+recursive-include mechanoChemML *.h5
+recursive-include mechanoChemML *.index
+recursive-include mechanoChemML *.ini
+recursive-include mechanoChemML *.json
+recursive-include mechanoChemML *.lsf
+recursive-include mechanoChemML *.npy
+recursive-include mechanoChemML *.py
+recursive-include mechanoChemML *.slrm
+recursive-include mechanoChemML *.tmpl
+recursive-include mechanoChemML *.txt
+recursive-include mechanoChemML *.vtk
