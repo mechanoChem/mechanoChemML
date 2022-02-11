@@ -27,9 +27,11 @@ GNU Lesser General Public License (LGPL) v3.0. Please see the file LICENSE for d
 # Installation
 
 ```
-  $ conda create --name mechanochemml python==3.6.9
+  $ conda create --name mechanochemml python=3.7
 
   $ conda activate mechanochemml
+
+  $ pip install mechanochemml
 
   $ (mechanochemml) git clone https://github.com/mechanoChem/mechanoChemML.git mechanoChemML-master
 

@@ -5,10 +5,16 @@ sphinx-autoapi
 matplotlib 
 pandas 
 scikit-learn 
+natsort
+keras==2.3.1
+tensorflow==2.4.1
+tensorflow-probability==0.12.1
+sobol-seq
+vtk
+SALib
 seaborn 
 jupyter 
 six
-natsort
 numexpr
 jsonpickle
 h5py
@@ -16,7 +22,3 @@ dill
 sparse
 joblib
 progress
-keras==2.3.1
-tensorflow==2.1.0
-sobol-seq
-numpy
