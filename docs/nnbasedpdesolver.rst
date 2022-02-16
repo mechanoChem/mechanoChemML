@@ -35,7 +35,7 @@ Since the NN-based PDE solver only takes BCs information as inputs, the training
 
 .. code-block:: bash
 
-    cd mechanoChemML/workflows/pde_solver/Example1_diffusion_steady_state/data
+    cd examples/pde_solver/Example1_diffusion_steady_state/data
 
 How to run the example
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -44,7 +44,7 @@ The following commands will run the deterministic NN-based PDE solver
 
 .. code-block:: bash
 
-    cd mechanoChemML/workflows/pde_solver/Example1_diffusion_steady_state
+    cd examples/pde_solver/Example1_diffusion_steady_state/
     python main.py octagon-32x32-cnn.ini
 
 The simulation results will be saved in the `results/` folder. The checkpoints are saved in the `restart/` folder. To run the Bayesian NN example with a warm start as discussed in [1], one need to provide the training summary `pickle` file from `results/` to `octagon-32x32-bnn.ini` at
@@ -58,9 +58,10 @@ Following that step, one can run the probabilistic NN-based PDE solver via
 
 .. code-block:: bash
 
-    cd mechanoChemML/workflows/pde_solver/Example1_diffusion_steady_state
+    cd examples/pde_solver/Example1_diffusion_steady_state/
     python main.py octagon-32x32-bnn.ini
 
+Note: tensorflow and tensorflow-probability libraries installed by the requirements.txt are CPU-based distributions. If you have a CUDA-enabled machine, you can also install the GPU versions of these two libraries to speedup the training. In general, tensorflow version needs to be greater than 2.2. The version of tensorflow-probability needs to be compatible with the version of tensorflow.
 
 References
 ==========

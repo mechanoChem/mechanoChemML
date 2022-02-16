@@ -36,6 +36,8 @@ Install required packages
 
 .. code-block:: bash
 
+  $ (mechanochemml) pip install mechanoChemML
+
   $ (mechanochemml) git clone https://github.com/mechanoChem/mechanoChemML.git mechanoChemML-master
 
   $ (mechanochemml) cd mechanoChemML-master
