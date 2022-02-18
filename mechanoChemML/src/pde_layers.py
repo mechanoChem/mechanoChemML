@@ -2850,7 +2850,6 @@ if __name__ == '__main__' :
     
     dof = 1
     dh = 1.0/7.0
-    features = np.load("np-features-e4-s0-constant-0.npy")
-    # print(features)
+    features = np.random.rand(1,8,8,3)
     ComputeNeumannBoundaryResidualNodalDataNew(features, dh, dof, padding='SAME')
 

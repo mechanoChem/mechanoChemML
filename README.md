@@ -61,6 +61,7 @@ This code has been developed under the support of the following:
 
 # Referencing this code
 
-If you write a paper using results obtained with the help of this code, please consider citing
+If you write a paper using results obtained with the help of this code, please consider citing:
 
 - X. Zhang, G.H. Teichert, Z. Wang, M. Duschenes, S. Srivastava, A. Sunderarajan, E. Livingston, K. Garikipati (2021), mechanoChemML: A software library for machine learning in computational materials physics, arXiv preprint [arXiv:2112.04960](https://arxiv.org/abs/2112.04960).
+
