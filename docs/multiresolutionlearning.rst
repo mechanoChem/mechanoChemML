@@ -29,14 +29,14 @@ The required data is stored at
 
 .. code-block:: text
 
-    mechanoChemML/workflows/multi_resolution_learning/Example1_elasticity_microstructures/mrnn-1-microstructure-dnn/data
+    examples/multi_resolution_learning/Example1_elasticity_microstructures/mrnn-1-microstructure-dnn/data
 
 Step 1: Hyper-parameter search for DNNs to learn the main feature of data
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: bash
 
-    cd mechanoChemML/workflows/multi_resolution_learning/Example1_elasticity_microstructures/mrnn-1-microstructure-dnn/step1_hyper_parameter_search_main_feature
+    cd examples/multi_resolution_learning/Example1_elasticity_microstructures/mrnn-1-microstructure-dnn/step1_hyper_parameter_search_main_feature
     python hyper_parameter_search.py
 
 Step 2: Train the optimal DNN to learn the main feature of data
@@ -44,7 +44,7 @@ Step 2: Train the optimal DNN to learn the main feature of data
 
 .. code-block:: bash
 
-    cd mechanoChemML/workflows/multi_resolution_learning/Example1_elasticity_microstructures/mrnn-1-microstructure-dnn/step2_final_dnn_main_feature
+    cd examples/multi_resolution_learning/Example1_elasticity_microstructures/mrnn-1-microstructure-dnn/step2_final_dnn_main_feature
     python dnn_1dns_final.py
 
 Step 3: Hyper-parameter search for MRNNs to learn the detail feature of data
@@ -52,7 +52,7 @@ Step 3: Hyper-parameter search for MRNNs to learn the detail feature of data
 
 .. code-block:: bash
 
-    cd mechanoChemML/workflows/multi_resolution_learning/Example1_elasticity_microstructures/mrnn-1-microstructure-dnn/step3_hyper_parameter_search_mrnn_detail_feature
+    cd examples/multi_resolution_learning/Example1_elasticity_microstructures/mrnn-1-microstructure-dnn/step3_hyper_parameter_search_mrnn_detail_feature
     python hyper_parameter_search.py
 
 Step 4: Train the optimal MRNN to learn the detail feature of data
@@ -60,7 +60,7 @@ Step 4: Train the optimal MRNN to learn the detail feature of data
 
 .. code-block:: bash
 
-    cd mechanoChemML/workflows/multi_resolution_learning/Example1_elasticity_microstructures/mrnn-1-microstructure-dnn/step4_final_mrnn_no_penalize_P
+    cd examples/multi_resolution_learning/Example1_elasticity_microstructures/mrnn-1-microstructure-dnn/step4_final_mrnn_no_penalize_P
     python kbnn_1_frame_dnn.py
 
 References
