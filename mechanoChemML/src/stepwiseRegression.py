@@ -3,7 +3,9 @@ Zhenlin Wang 2019
 """
 
 import numpy as np
-import LeastR as LR 
+from mechanoChemML.src import LeastR as LR 
+#import LeastR as LR 
+
 
 class stepwiseR(object):
   def __init__(self,F_criteria=[1],F_switch=[],basis_drop_strategy='aggressive',sigma_n=1.0e-20,anchor_index=[-1],alpha_lasso=0,alpha_ridge=0, ridge_cv=[-1],threshold_d=1.0e-14,n_jobs=1):

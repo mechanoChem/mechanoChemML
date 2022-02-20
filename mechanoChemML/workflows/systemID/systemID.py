@@ -1,5 +1,6 @@
 """
 Zhenlin Wang 2019
+systemID workflow
 """
 
 import numpy as np
@@ -7,7 +8,7 @@ from sklearn import linear_model
 from sklearn.metrics.pairwise import cosine_similarity
 
 import h5py as h5
-from mechanoChemML.src.stepwiseRegression import stepwiseRegression as ST
+from mechanoChemML.src import stepwiseRegression as ST
 
 def getlist_str(option, sep=',', chars=None):
     """Return a list from a ConfigParser option. By default, 
@@ -52,6 +53,7 @@ class systemID:
           'cos_similiarity':np.zeros(0),
           'sum_cos_similiarity':np.zeros(0)
         }
+        
 
     def debugger(self):
         import logging
