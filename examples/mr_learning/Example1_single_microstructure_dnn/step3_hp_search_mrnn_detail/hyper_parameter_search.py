@@ -19,7 +19,7 @@ import mechanoChemML.src.kfold_train as KFoldTrain
 
 args = mrnn_utility.sys_args()
 
-args.configfile = 'kbnn-load-dnn-1-frame-hyperparameter-search-comet.ini'
+args.configfile = 'kbnn-load-dnn-1-frame-hyperparameter-search.ini'
 args.platform = 'gpu'
 args.inspect = 0
 args.debug = False
