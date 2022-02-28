@@ -1,11 +1,14 @@
 from setuptools import find_packages, setup
 
-with open("README.md", "r") as fh:
-    long_description = fh.read()
+with open("README.md", "r") as f:
+    long_description = f.read()
+
+with open("requirements.txt", "r") as f:
+    required = f.read()
 
 setup(
         name="mechanoChemML",
-        version="0.0.3",
+        version="0.0.4",
         packages=find_packages(),
         description="A machine learning software library for computational materials physics",
         long_description=long_description,
@@ -15,12 +18,10 @@ setup(
         author='Xiaoxuan Zhang',
         author_email='zhangxiaoxuan258@gmail.com',
         classifiers=[
-            "Programming Language :: Python :: 3.6",
+            "Programming Language :: Python :: 3.7",
             "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
             ],
-        install_requires=[
-          'numpy',
-          ],
+        install_requires=required,
         extras_require = {
             "dev":[
                 "pytest>=3.6",

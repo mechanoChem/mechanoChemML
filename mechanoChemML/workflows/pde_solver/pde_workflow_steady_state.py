@@ -28,6 +28,47 @@ tf.keras.backend.set_floatx('float32')
 from tensorflow import keras
 from tensorflow.keras import layers
 from tensorflow.python.training import py_checkpoint_reader
+import pip
+
+def force_install(package, versions=None):
+
+    """install one package with versions """
+
+    if versions is not None:
+        pip.main(['install', package+'=='+versions])
+    else:
+        pip.main(['install', package])
+
+def check_and_install_tfp(package, versions=None):
+
+    """make sure tfp is compatiable with tf """
+
+    try:
+        __import__(package)
+    except ImportError:
+        force_install(package, versions)
+    import tensorflow_probability as tfp
+    tfp_version=tfp.__version__.split(".")
+    if tfp_version[0:2] != versions.split(".")[0:2]:
+        force_install(package, versions)
+    #print(tfp_version[0:2], versions.split(".")[0:2])
+
+tf_version=tf.__version__.split(".")
+#print(tf_version)
+if tf_version[0] == '2' and tf_version[1] == '8': check_and_install_tfp('tensorflow_probability', '0.16.0')
+if tf_version[0] == '2' and tf_version[1] == '7': check_and_install_tfp('tensorflow_probability', '0.15.0')
+if tf_version[0] == '2' and tf_version[1] == '6': check_and_install_tfp('tensorflow_probability', '0.14.0')
+if tf_version[0] == '2' and tf_version[1] == '5': check_and_install_tfp('tensorflow_probability', '0.13.0')
+if tf_version[0] == '2' and tf_version[1] == '4': check_and_install_tfp('tensorflow_probability', '0.12.0')
+if tf_version[0] == '2' and tf_version[1] == '3': check_and_install_tfp('tensorflow_probability', '0.11.0')
+if tf_version[0] == '2' and tf_version[1] == '2': check_and_install_tfp('tensorflow_probability', '0.10.0')
+#try:
+#    __import__('tensorflow_probability')
+#except ImportError:
+#    pip.main(['install', 'package'])
+
+
+
 import tensorflow_probability as tfp
 # tf.logging.set_verbosity(tf.logging.ERROR)
 

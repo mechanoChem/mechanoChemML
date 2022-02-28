@@ -6,9 +6,8 @@ matplotlib
 pandas 
 scikit-learn 
 natsort
-keras==2.3.1
-tensorflow
-tensorflow-probability
+keras
+tensorflow>=2.2.0
 sobol-seq
 vtk
 SALib

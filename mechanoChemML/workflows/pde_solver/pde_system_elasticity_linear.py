@@ -1,7 +1,6 @@
 import numpy as np
 
 import tensorflow as tf
-import tensorflow_probability as tfp
 
 import mechanoChemML.src.pde_layers as pde_layers
 from mechanoChemML.workflows.pde_solver.pde_workflow_steady_state import PDEWorkflowSteadyState
