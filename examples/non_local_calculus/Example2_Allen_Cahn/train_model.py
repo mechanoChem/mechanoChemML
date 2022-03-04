@@ -1,7 +1,7 @@
 import sys, os
 import pandas as pd 
-#sys.path.append('../../../src/')
-from mechanoChemML.src.systemID import *
+import numpy as np
+from mechanoChemML.workflows.systemID.systemID import systemID
 np.set_printoptions(precision=5)
 
 #Run as: python train_model config_allen_cahn.ini
