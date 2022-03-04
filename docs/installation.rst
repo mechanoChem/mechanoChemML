@@ -48,21 +48,17 @@ One can either download the whole mechanoChemML library
 
   $ (mechanochemml) git clone https://github.com/mechanoChem/mechanoChemML.git mechanoChemML-master
 
-  $ (mechanochemml) cd mechanoChemML-master/examples
-
 Or just download the examples provided by the mechanoChemML library
 
 .. code-block:: bash
 
   $ (mechanochemml) svn export https://github.com/mechanoChem/mechanoChemML/trunk/examples ./examples
 
-  $ (mechanochemml) cd examples
-
 One needs to run the following command to install the proper TensorFlow version, which is compatible with their CUDA version
 
 .. code-block:: bash
 
-  $ (mechanochemml) python3 install_tensorflow.py
+  $ (mechanochemml) python3 examples/install_tensorflow.py
 
 
 Compile local documentation
