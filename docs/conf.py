@@ -67,7 +67,8 @@ autoapi_dirs = [
 # autoapi_dirs = ['../mechanoChemML/component', '../mechanoChemML/dns_wrapper', '../mechanoChemML/utility', '../mechanoChemML/workflows']
 numpydoc_show_class_members = False # turn off some warning.
 
-autoapi_ignore = ["*example_*.py", "*Example*.py"]
+#Remove autoapi for examples and non-local calc files
+autoapi_ignore = ["*example_*.py", "*Example*.py", "*src/graph_*", '*src/estimator*']
 
 
 # Add any paths that contain templates here, relative to this directory.
