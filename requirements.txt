@@ -7,7 +7,6 @@ pandas
 scikit-learn 
 natsort
 keras
-tensorflow>=2.2.0
 sobol-seq
 vtk
 SALib

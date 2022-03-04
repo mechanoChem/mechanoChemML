@@ -8,7 +8,7 @@ with open("requirements.txt", "r") as f:
 
 setup(
         name="mechanoChemML",
-        version="0.0.4",
+        version="0.0.5",
         packages=find_packages(),
         description="A machine learning software library for computational materials physics",
         long_description=long_description,

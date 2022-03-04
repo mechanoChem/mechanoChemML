@@ -32,12 +32,30 @@ GNU Lesser General Public License (LGPL) v3.0. Please see the file LICENSE for d
   $ conda activate mechanochemml
 
   $ (mechanochemml) pip install mechanochemml
+```
 
+## Download examples
+
+One can either download the whole mechanoChemML library
+
+```
   $ (mechanochemml) git clone https://github.com/mechanoChem/mechanoChemML.git mechanoChemML-master
 
-  $ (mechanochemml) cd mechanoChemML-master
+  $ (mechanochemml) cd mechanoChemML-master/examples
+```
 
-  $ (mechanochemml) pip3 install -r requirements.txt
+Or just download the examples provided by the mechanoChemML library
+
+```
+  $ (mechanochemml) svn export https://github.com/mechanoChem/mechanoChemML/trunk/examples ./examples
+
+  $ (mechanochemml) cd examples
+```
+
+One needs to run the following command to install the proper TensorFlow version, which is compatible with their CUDA version
+
+```
+  $ (mechanochemml) python3 install_tensorflow.py
 ```
 
 # Documentation and usage 

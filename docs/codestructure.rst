@@ -23,18 +23,23 @@ Following is the folder structure of the mechanoChemML library:
    | │   ├── third_party
    | │   └── workflows
    | │       ├── active_learning
-   | │       |   ├── Example1_NiAl
-   | │       |   └── Example2_LCO
    | │       ├── multi_resolution_learning
-   | │       |   └── Example1_elasticity_microstructures
    | │       ├── pde_solver
-   | │       |   ├── Example1_diffusion_steady_state
-   | │       |   ├── Example2_linear_elasticity
-   | │       |   └── Example3_nonlinear_elasticity
-   | │       │── systemID
-   | │       |   ├── Example1_pattern_forming
-   | │       |   ├── Example2_soft_materials
-   | │       |   └── Example3_polynomial
+   | │       └── systemID
+   | ├── examples
+   | │   ├── active_learning
+   | │   |   ├── Example1_NiAl
+   | │   |   └── Example2_LCO
+   | │   ├── mr_learning
+   | │   |   └── Example1_single_microstructure_dnn
+   | │   ├── pde_solver
+   | │   |   ├── Example1_diffusion_steady_state
+   | │   |   ├── Example2_linear_elasticity
+   | │   |   └── Example3_nonlinear_elasticity
+   | │   │── systemID
+   | │   |   ├── Example1_pattern_forming
+   | │   |   ├── Example2_soft_materials
+   | │   |   └── Example3_polynomial
 
 
 In the folder structure above:
@@ -51,4 +56,5 @@ In the folder structure above:
 - ``mechanoChemML-master/mechanoChemML/workflows/multi_resolution_learning`` is the directory, where the multi-resolution learning workflows reside.
 - ``mechanoChemML-master/mechanoChemML/workflows/pde_solver`` is the directory, where the NN-based PDE solver workflows reside.
 - ``mechanoChemML-master/mechanoChemML/workflows/systemID`` is the directory, where the system identification workflows reside.
+- ``mechanoChemML-master/examples/`` is the directory, where the workflow examples reside.
 
