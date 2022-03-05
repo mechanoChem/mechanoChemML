@@ -6,9 +6,12 @@ with open("README.md", "r") as f:
 with open("requirements.txt", "r") as f:
     required = f.read()
 
+with open("VERSION.md", "r") as f:
+    current_version = f.read().strip()
+
 setup(
         name="mechanoChemML",
-        version="0.0.5",
+        version=current_version,
         packages=find_packages(),
         description="A machine learning software library for computational materials physics",
         long_description=long_description,

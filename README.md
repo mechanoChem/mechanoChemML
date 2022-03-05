@@ -16,64 +16,23 @@ List of contributors (alphabetical order):
 
 mechanoChemML is a machine learning software library for computational materials physics. It is designed to function as an interface between platforms that are widely used for scientific machine learning on one hand, and others for solution of partial differential equations-based models of physics. Of special interest here, and the focus of mechanoChemML, are applications to computational materials physics. These typically feature the coupled solution of material transport, reaction, phase transformation, mechanics, heat transport and electrochemistry. 
 
-# Version information
-
-This is version 0.1.0.
-
 # License
 
 GNU Lesser General Public License (LGPL) v3.0. Please see the file LICENSE for details. 
 
 # Installation
 
-```
-  $ conda create --name mechanochemml python=3.7
-
-  $ conda activate mechanochemml
-
-  $ (mechanochemml) pip install mechanochemml
-```
-
-## Download examples
-
-One can either download the whole mechanoChemML library
-
-```
-  $ (mechanochemml) git clone https://github.com/mechanoChem/mechanoChemML.git mechanoChemML-master
-
-```
-
-Or just download the examples provided by the mechanoChemML library
-
-```
-  $ (mechanochemml) svn export https://github.com/mechanoChem/mechanoChemML/trunk/examples ./examples
-
-```
-
-One needs to run the following command to install the proper TensorFlow version, which is compatible with their CUDA version
-
-```
-  $ (mechanochemml) python3 examples/install_tensorflow.py
-```
+One can follow the installation instruction at https://mechanochemml.readthedocs.io/en/latest/installation.html to install the mechanoChemML library.
 
 # Documentation and usage 
 
 The documentation of this library is available at https://mechanochemml.readthedocs.io/en/latest/index.html, where one can find instructions of using the provided classes, functions, and workflows provided by the mechanoChemML library.
-
-To create a local copy of the documentation, one can use
-
-```
-  $ (mechanochemml) cd mechanoChemML-master/doc
-
-  $ (mechanochemml) make html
-```
 
 # Acknowledgements
 
 This code has been developed under the support of the following:
 
 - Toyota Research Institute, Award #849910 "Computational framework for data-driven, predictive, multi-scale and multi-physics modeling of battery materials"
-
 
 # Referencing this code
 

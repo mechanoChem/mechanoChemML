@@ -16,6 +16,9 @@ import fractions
 
 
 def parse_sys_args():
+    """
+    Command line input variables
+    """
 
     # check: https://docs.python.org/3.6/library/argparse.html#nargs
     parser = argparse.ArgumentParser(description='Run ML study for effective properties study', prog="'" + (sys.argv[0]) + "'")
@@ -61,6 +64,10 @@ def parse_sys_args():
 
 
 class sys_args:
+    """
+    System configurations
+    """
+
     def __init__(self):
         self.configfile = ''
         self.platform = 'gpu'
@@ -71,6 +78,9 @@ class sys_args:
 
 
 def notebook_args(args):
+    """
+    Additional configurations
+    """
 
     if (not (args.verbose == 3 and args.debug)):
         os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'    # suppress info output
@@ -89,6 +99,9 @@ def notebook_args(args):
 
 
 def split_data(datax, datay, split_ratio=['0.6', '0.25', '0.15']):
+    """
+    Split data based on different ratios
+    """
     tr_ratio = float(split_ratio[0])
     cv_ratio = float(split_ratio[1])
     tt_ratio = float(split_ratio[2])
@@ -122,16 +135,20 @@ def get_package_version(tf_version):
 
 
 def getlist_str(option, sep=',', chars=None):
-    """Return a list from a ConfigParser option. By default, 
-     split on a comma and strip whitespaces."""
+    """
+    Return a list from a ConfigParser option. By default, 
+     split on a comma and strip whitespaces.
+    """
     list0 = [(chunk.strip(chars)) for chunk in option.split(sep)]
     list0 = [x for x in list0 if x]
     return list0
 
 
 def getlist_int(option, sep=',', chars=None):
-    """Return a list from a ConfigParser option. By default, 
-     split on a comma and strip whitespaces."""
+    """
+    Return a list from a ConfigParser option. By default, 
+     split on a comma and strip whitespaces.
+    """
     list0 = option.split(sep)
     list0 = [x for x in list0 if x]
     if (len(list0)) > 0:
@@ -141,8 +158,10 @@ def getlist_int(option, sep=',', chars=None):
 
 
 def getlist_float(option, sep=',', chars=None):
-    """Return a list from a ConfigParser option. By default, 
-     split on a comma and strip whitespaces."""
+    """
+    Return a list from a ConfigParser option. By default, 
+     split on a comma and strip whitespaces.
+    """
     list0 = option.split(sep)
     list0 = [x for x in list0 if x]
     if (len(list0)) > 0:
@@ -152,6 +171,9 @@ def getlist_float(option, sep=',', chars=None):
 
 
 def get_now():
+    """
+    Return the now string: yyyy-mm-dd-hh-mm-ss
+    """
     return datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 
 
@@ -169,6 +191,9 @@ def get_dummy_data(num):
 
 
 def csvDf(dat, **kwargs):
+    """
+    Generate dataframe based on csv file
+    """
     data = array(dat)
     if data is None or len(data) == 0 or len(data[0]) == 0:
         return None
@@ -182,24 +207,24 @@ def read_config_file(configfile, print_keys=False):
     """
     config = ConfigParser(interpolation=ExtendedInterpolation())
     config.read(configfile)
-    print('... read ... configfile = ', configfile)
-    print('old root is:', type(config['TEST']['root']), [config['TEST']['root']])
+    # print('... read ... configfile = ', configfile)
+    # print('old root is:', type(config['TEST']['root']), [config['TEST']['root']])
     modify_root_flag = False
     if config['TEST']['root'] == '':
         config['TEST']['root'] = os.path.dirname(os.path.abspath(configfile)) + '/'
         modify_root_flag = True
     else:
         modify_root_flag = False
-        print('root is: ', config['TEST']['root'])
+        # print('root is: ', config['TEST']['root'])
 
     # note: check if data files is given with absolute path (start with '/') or relative path, will add the root path to it.
     if (config['TEST']['DataFile'][0] != '/'):
         data_file_list = getlist_str(config['TEST']['DataFile'])
-        print('...modifying.. DataFile from: ', config['TEST']['DataFile'])
+        # print('...modifying.. DataFile from: ', config['TEST']['DataFile'])
         for i0 in range(0, len(data_file_list)):
             data_file_list[i0] = os.path.dirname(os.path.abspath(configfile)) + '/' + data_file_list[i0]
         config['TEST']['DataFile'] = ', '.join(data_file_list)
-        print('...modifying.. DataFile to: ', config['TEST']['DataFile'])
+        # print('...modifying.. DataFile to: ', config['TEST']['DataFile'])
 
     # if the following values are not given as the absolute path, then, it will be modified to the absolute value
     # In KBNN, use config['TEST']['root'] to provide the relative path.
@@ -211,25 +236,28 @@ def read_config_file(configfile, print_keys=False):
     # note: if the given folder name does not end with "/", the following will add "/" to it.
     if (config['RESTART']['CheckPointDir'][-1] != '/'):
         config['RESTART']['CheckPointDir'] = config['RESTART']['CheckPointDir'] + '/'
-        print(' ... add ... / to the CheckPointDir, with a new value of ', config['RESTART']['CheckPointDir'])
+        # print(' ... add ... / to the CheckPointDir, with a new value of ', config['RESTART']['CheckPointDir'])
 
     cmd = 'mkdir -p ' + config['RESTART']['CheckPointDir']
     exe_cmd(cmd)
     cmd = 'mkdir -p ' + config['OUTPUT']['TensorBoardDir']
     exe_cmd(cmd)
 
-    if (print_keys):
-        for sec in config.items():
-            sec_name = sec[0]
-            print("--SECTION NAME--: ", sec_name)
-            for key in config[sec_name]:
-                print('         --key--: {:>25s}:'.format(key), '  ', config[sec_name][key])
+    # if (print_keys):
+        # for sec in config.items():
+            # sec_name = sec[0]
+            # print("--SECTION NAME--: ", sec_name)
+            # for key in config[sec_name]:
+                # print('         --key--: {:>25s}:'.format(key), '  ', config[sec_name][key])
 
-    print('new test root: ', config['TEST']['root'])
+    # print('new test root: ', config['TEST']['root'])
     return config
 
 
 def read_one_vtk(filepath, scalar='', vector=''):
+    """
+    Read one VTK file
+    """
     # print('read_one_vtk')
 
     reader = vtk.vtkStructuredGridReader()
@@ -262,15 +290,18 @@ def read_one_vtk(filepath, scalar='', vector=''):
 
 
 def read_psi_me_from_mechanical_data(file_path):
-    """ this function should be a standalone script to prepare the label and features for vtk files. """
-    print('read_psi_me_from_mechanical_data: for temporary label of vtk datatype')
+    """ 
+    Read psi_me from mechanical_data: for temporary label of vtk datatype
+
+    This function should be a standalone script to prepare the label and features for vtk files. 
+    """
 
     # delete the leading '=' for the index field
     cmd = "sed -i 's/^.*=//' " + file_path
     exe_cmd(cmd)
 
     selected_cols = pd.read_csv(file_path, index_col=False, skipinitialspace=True)
-    print(selected_cols)
+    # print(selected_cols)
     label = [None] * (len(selected_cols) + 1)
     print("Att: read_psi_me_from_mechanical_data: 'index' is used to index frames")
     print("ERR could occur if some of the frames have psi_me but not vtk, or have vtk but not psi_me [index out of range error]")
@@ -284,12 +315,14 @@ def read_psi_me_from_mechanical_data(file_path):
 
 
 def load_data_from_npy_for_label_shift_frame(config, dataset_frame, normalization_flag=True, verbose=0):
-    """ don't mess up the input filename with fcn """
-    print('load_data_from_npy_for_label_shift_frame')
+    """ 
+    Load data from npy for label shift frame
+    """
+    # print('load_data_from_npy_for_label_shift_frame')
     data_file = config['KBNN']['OldShiftFeatures']
-    print("numpy_base_frame_file_name: ", data_file)
+    # print("numpy_base_frame_file_name: ", data_file)
     all_data = np.load(data_file)
-    print('load saved numpy base frame for vtk folder')
+    # print('load saved numpy base frame for vtk folder')
     # print('load saved numpy base frame for vtk folder', tf.shape(all_data))
     # all_data = all_data.astype(np.float32)
     # print('all data after cast: ', tf.shape(all_data))
@@ -297,20 +330,21 @@ def load_data_from_npy_for_label_shift_frame(config, dataset_frame, normalizatio
 
 
 def load_data_from_vtk_for_label_shift_frame(config, dataset_frame, normalization_flag=True, verbose=0):
-    """ don't mess up the input filename with fcn """
-    print('load_data_from_vtk_for_label_shift_frame')
+    """ 
+    Load data from vtk for label shift frame
+    """
     data_file = config['KBNN']['OldShiftFeatures']
     all_data = []
     load_numpy_flag = False
 
     numpy_base_frame_file_name = "numpy_base_frame_" + config['KBNN']['OldShiftCNNSavedBaseFrameNumpyName'] + ".vtk"
-    print("numpy_base_frame_file_name: ", numpy_base_frame_file_name)
+    # print("numpy_base_frame_file_name: ", numpy_base_frame_file_name)
 
     for file1 in glob.glob(data_file[0:data_file.rfind('/') + 1] + '*'):
         if file1.find(numpy_base_frame_file_name) >= 0:
             all_data = np.load(file1)
             load_numpy_flag = True
-            print('load saved numpy base frame for vtk folder', tf.shape(all_data))
+            # print('load saved numpy base frame for vtk folder', tf.shape(all_data))
 
     if (not load_numpy_flag):
         all_the_vtk_files = glob.glob(data_file)
@@ -335,19 +369,21 @@ def load_data_from_vtk_for_label_shift_frame(config, dataset_frame, normalizatio
 
         numpy_file = file1[0:file1.rfind('/')] + '/' + numpy_base_frame_file_name
         all_data = np.array(all_data)
-        print('save data to numpy_file: ', numpy_file)
+        # print('save data to numpy_file: ', numpy_file)
         np.save(numpy_file, all_data)
 
     all_data = all_data.astype(np.float32)
 
     # all_data = tf.cast(all_data, tf.float32)
     # all_data = tf.convert_to_tensor(all_data, dtype=tf.float32)
-    print('all data after cast: ', tf.shape(all_data))
+    # print('all data after cast: ', tf.shape(all_data))
     return all_data
 
 
 def load_all_data_from_vtk_database(config, normalization_flag=True, verbose=0):
-    print('load_all_data_from_vtk_database')
+    """
+    Load all data from vtk database
+    """
     data_file = config['TEST']['DataFile']
     # print(data_file)
     data_file_list = getlist_str(config['TEST']['DataFile'])
@@ -360,24 +396,24 @@ def load_all_data_from_vtk_database(config, normalization_flag=True, verbose=0):
 
     for data_file in data_file_list:
         load_numpy_flag = False
-        print(data_file)
-        print(data_file[0:data_file.rfind('/') + 1] + '*')
+        # print(data_file)
+        # print(data_file[0:data_file.rfind('/') + 1] + '*')
         for file1 in glob.glob(data_file[0:data_file.rfind('/') + 1] + '*'):
             if file1.find('numpy.vtk') >= 0:
                 all_data.append(np.load(file1))
                 load_numpy_flag = True
-                print('load saved numpy for vtk folder')
+                # print('load saved numpy for vtk folder')
                 # print('all_data', all_data)
 
             if file1.find('numpy_label.vtk') >= 0:
                 the_label.append(np.load(file1))
-                print('load saved numpy for the label folder')
+                # print('load saved numpy for the label folder')
 
         if (not load_numpy_flag):
             # if(len(data_file_list) > 1):
             # raise ValueError ('This subroutine is not checked with multiple folders! Check Carefully! Do not mess up the labels!')
             all_the_vtk_files = glob.glob(data_file)
-            print(data_file[0:data_file.rfind('/') + 1] + 'mechanical_data.txt')
+            # print(data_file[0:data_file.rfind('/') + 1] + 'mechanical_data.txt')
             tmp_label = read_psi_me_from_mechanical_data(data_file[0:data_file.rfind('/') + 1] + 'mechanical_data.txt')
             # print(tmp_label)
 
@@ -390,15 +426,15 @@ def load_all_data_from_vtk_database(config, normalization_flag=True, verbose=0):
 
             numpy_file = file1[0:file1.rfind('/')] + '/numpy.vtk'
             all_data.append(np.array(all_data_one))
-            print('save data to numpy_file: ', numpy_file, np.shape(all_data_one))
+            # print('save data to numpy_file: ', numpy_file, np.shape(all_data_one))
             np.save(numpy_file, all_data[-1])
 
             numpy_file = file1[0:file1.rfind('/')] + '/numpy_label.vtk'
             the_label.append(np.array(the_label_one))
-            print('save data to numpy_file: ', numpy_file, np.shape(the_label_one))
+            # print('save data to numpy_file: ', numpy_file, np.shape(the_label_one))
             np.save(numpy_file, the_label[-1])
-            print('all_data: ', np.shape(all_data), len(all_data))
-            print('the_label: ', np.shape(the_label), len(the_label))
+            # print('all_data: ', np.shape(all_data), len(all_data))
+            # print('the_label: ', np.shape(the_label), len(the_label))
 
     _all_data = all_data[0]
     # print(np.shape(_all_data))
@@ -412,14 +448,14 @@ def load_all_data_from_vtk_database(config, normalization_flag=True, verbose=0):
         # print(np.shape(t1))
         _the_label = np.concatenate((_the_label, t1), axis=0)
         # print(np.shape(_the_label))
-    print('all data : ', np.shape(_all_data))
-    print('the label: ', np.shape(_the_label))
+    # print('all data : ', np.shape(_all_data))
+    # print('the label: ', np.shape(_the_label))
 
     all_data = _all_data.astype(np.float32)
     the_label = _the_label.astype(np.float32)
 
-    print('all data : ', tf.shape(all_data))
-    print('the label: ', tf.shape(the_label))
+    # print('all data : ', tf.shape(all_data))
+    # print('the label: ', tf.shape(the_label))
 
     label_scale = float(config['TEST']['LabelScale'])
     the_label = the_label * label_scale
@@ -436,7 +472,9 @@ def load_all_data_from_vtk_database(config, normalization_flag=True, verbose=0):
 
 
 def load_all_data_from_npy_database(config, normalization_flag=True, verbose=0):
-    print('load_all_data_from_npy_database')
+    """
+    load all data from npy database
+    """
     data_file = config['TEST']['DataFile']
     data_file_list = getlist_str(config['TEST']['DataFile'])
 
@@ -465,7 +503,7 @@ def load_all_data_from_npy_database(config, normalization_flag=True, verbose=0):
                 tmp_label = np.load(label_file)
                 the_label = np.concatenate((the_label, tmp_label), axis=0)
 
-            print(' feature file: ', feature_file, ' label file: ', label_file)
+            # print(' feature file: ', feature_file, ' label file: ', label_file)
         # print('all data shape: ', np.shape(all_data), ' all label shape: ', np.shape(the_label))
         # if(np.shape(all_data) != np.shape(the_label)):
         # raise ValueError('features shape does not match the label shape. Check if you really want this to happen. So far, the code is for elasticity BVP full field map!!!')
@@ -473,8 +511,8 @@ def load_all_data_from_npy_database(config, normalization_flag=True, verbose=0):
     all_data = all_data.astype(np.float32)
     the_label = the_label.astype(np.float32)
 
-    print('all data : ', tf.shape(all_data))
-    print('the label: ', tf.shape(the_label))
+    # print('all data : ', tf.shape(all_data))
+    # print('the label: ', tf.shape(the_label))
 
     label_scale = float(config['TEST']['LabelScale'])
     the_label = the_label * label_scale
@@ -492,7 +530,9 @@ def load_all_data_from_npy_database(config, normalization_flag=True, verbose=0):
 
 
 def load_data_from_vtk_database(config, normalization_flag=True, verbose=0):
-    print('load_data_from_vtk_database: hard coded label: mechanical_data.txt', )
+    """
+    Load data from vtk database with hard coded label  mechanical_data.txt
+    """
     data_file = config['TEST']['DataFile']
     # print(data_file)
     data_file_list = getlist_str(config['TEST']['DataFile'])
@@ -511,18 +551,18 @@ def load_data_from_vtk_database(config, normalization_flag=True, verbose=0):
             if file1.find('numpy.vtk') >= 0:
                 all_data.append(np.load(file1))
                 load_numpy_flag = True
-                print('load saved numpy for vtk folder')
+                # print('load saved numpy for vtk folder')
                 # print('all_data', all_data)
 
             if file1.find('numpy_label.vtk') >= 0:
                 the_label.append(np.load(file1))
-                print('load saved numpy for the label folder')
+                # print('load saved numpy for the label folder')
 
         if (not load_numpy_flag):
             # if(len(data_file_list) > 1):
             # raise ValueError ('This subroutine is not checked with multiple folders! Check Carefully! Do not mess up the labels!')
             all_the_vtk_files = glob.glob(data_file)
-            print(data_file[0:data_file.rfind('/') + 1] + 'mechanical_data.txt')
+            # print(data_file[0:data_file.rfind('/') + 1] + 'mechanical_data.txt')
             tmp_label = read_psi_me_from_mechanical_data(data_file[0:data_file.rfind('/') + 1] + 'mechanical_data.txt')
             # print(tmp_label)
 
@@ -535,15 +575,15 @@ def load_data_from_vtk_database(config, normalization_flag=True, verbose=0):
 
             numpy_file = file1[0:file1.rfind('/')] + '/numpy.vtk'
             all_data.append(np.array(all_data_one))
-            print('save data to numpy_file: ', numpy_file, np.shape(all_data_one))
+            # print('save data to numpy_file: ', numpy_file, np.shape(all_data_one))
             np.save(numpy_file, all_data[-1])
 
             numpy_file = file1[0:file1.rfind('/')] + '/numpy_label.vtk'
             the_label.append(np.array(the_label_one))
-            print('save data to numpy_file: ', numpy_file, np.shape(the_label_one))
+            # print('save data to numpy_file: ', numpy_file, np.shape(the_label_one))
             np.save(numpy_file, the_label[-1])
-            print('all_data: ', np.shape(all_data), len(all_data))
-            print('the_label: ', np.shape(the_label), len(the_label))
+            # print('all_data: ', np.shape(all_data), len(all_data))
+            # print('the_label: ', np.shape(the_label), len(the_label))
 
     _all_data = all_data[0]
     # print(np.shape(_all_data))
@@ -557,14 +597,14 @@ def load_data_from_vtk_database(config, normalization_flag=True, verbose=0):
         # print(np.shape(t1))
         _the_label = np.concatenate((_the_label, t1), axis=0)
         # print(np.shape(_the_label))
-    print('all data : ', np.shape(_all_data))
-    print('the label: ', np.shape(_the_label))
+    # print('all data : ', np.shape(_all_data))
+    # print('the label: ', np.shape(_the_label))
 
     all_data = _all_data.astype(np.float32)
     the_label = _the_label.astype(np.float32)
 
-    print('all data : ', tf.shape(all_data))
-    print('the label: ', tf.shape(the_label))
+    # print('all data : ', tf.shape(all_data))
+    # print('the label: ', tf.shape(the_label))
     # exit(0)
 
     split_ratio = getlist_float(config['TEST']['SplitRatio'])
@@ -591,7 +631,7 @@ def load_data_from_vtk_database(config, normalization_flag=True, verbose=0):
 
     ModelArchitect = config['MODEL']['ModelArchitect']
     if (ModelArchitect.lower() == "CNN_autoencoder".lower() or ModelArchitect.lower().find("_unsupervise") >= 0):
-        print('unsupervised learning, features = label')
+        # print('unsupervised learning, features = label')
         return train_dataset, train_dataset, val_dataset, val_dataset, test_dataset, test_dataset, test_derivative, train_stats
     else:
         return train_dataset, train_labels, val_dataset, val_labels, test_dataset, test_labels, test_derivative, train_stats
@@ -601,7 +641,7 @@ def load_all_data(config, args):    # for K-fold validation
     """
     load csv, image, url etc data to the main code
     """
-    print('load_all_data')
+    # print('load_all_data')
     verbose = args.verbose
 
     # load / pre-process data / split data
@@ -626,7 +666,7 @@ def load_all_data(config, args):    # for K-fold validation
     else:
         raise ValueError('unknown options for the DataFile:', data_file)
 
-    print("...done with data loading")    #,len(dataset), len(labels)) // len(tensor) is not available for tf1.13
+    # print("...done with data loading")    #,len(dataset), len(labels)) // len(tensor) is not available for tf1.13
 
     if (args.inspect == 1):
         print('enter pre-inspection')
@@ -638,16 +678,19 @@ def load_all_data(config, args):    # for K-fold validation
 
 # the default data file is in csv format with ',' as the delimiter, and the header to describe the field info
 def read_csv_fields(file_path, fields, sep=','):
+    """
+    Read CSV fields information
+    """
     # will read the csv file and load the fields according to the new order
     list_of_csv_files = getlist_str(file_path)
     selected_cols = pd.read_csv(list_of_csv_files[0], index_col=False, sep=sep, usecols=fields, skipinitialspace=True)[fields]
-    print('read_csv_fields: ', list_of_csv_files[0], len(selected_cols))
+    # print('read_csv_fields: ', list_of_csv_files[0], len(selected_cols))
 
     for f1 in list_of_csv_files[1:]:
         new_selected_cols = pd.read_csv(f1, index_col=False, sep=sep, usecols=fields, skipinitialspace=True)[fields]
-        print('read_csv_fields: ', f1, len(new_selected_cols))
+        # print('read_csv_fields: ', f1, len(new_selected_cols))
         selected_cols = selected_cols.append(new_selected_cols, ignore_index=True)
-    print('total df datasize: ', len(selected_cols))
+    # print('total df datasize: ', len(selected_cols))
 
     # print (selected_cols)
     # print (type(selected_cols))
@@ -658,6 +701,9 @@ def read_csv_fields(file_path, fields, sep=','):
 
 
 def dataset_pop_list(data_set, pop_list):
+    """
+    Pop a list of index from the dataset
+    """
     # print ('before pop: ', data_set.keys())
     df2 = pd.concat([data_set.pop(x) for x in pop_list], 1)
     # print ('after pop: ', data_set.keys())
@@ -665,9 +711,12 @@ def dataset_pop_list(data_set, pop_list):
 
 
 def norm(x, train_stats, DataNormOption=0):
+    """
+    Different data normalization scheme
+    """
     if DataNormOption == 0:
-        print('...mean:', train_stats['mean'])
-        print('...std:', train_stats['std'])
+        # print('...mean:', train_stats['mean'])
+        # print('...std:', train_stats['std'])
         return (x - train_stats['mean']) / train_stats['std']    # ATT > float64
     elif DataNormOption == 1:
         return (x - train_stats['mean']) / train_stats['std']    # ATT > float64
@@ -679,15 +728,15 @@ def norm(x, train_stats, DataNormOption=0):
 
 def prepare_data_from_csv_file(config, normalization_flag=True, verbose=0):
     """
-  load the desired fields from the csv file, not full list
-  split the data based on the label fields
-  split the data to three different set [train, validation, test] 
-  """
-    print('prepare_data_from_csv_file')
+    load the desired fields from the csv file, not full list
+    split the data based on the label fields
+    split the data to three different set [train, validation, test] 
+    """
+    # print('prepare_data_from_csv_file')
 
     split_ratio = [0.6, 0.25, 0.15],
     data_file = config['TEST']['DataFile']
-    print('data_file', data_file)
+    # print('data_file', data_file)
 
     all_fields = getlist_str(config['TEST']['AllFields'])
     label_fields = getlist_str(config['TEST']['LabelFields'])
@@ -797,16 +846,16 @@ def prepare_data_from_csv_file(config, normalization_flag=True, verbose=0):
         # exit(0)
         return train_dataset, train_labels, val_dataset, val_labels, test_dataset, test_labels, test_derivative, train_stats
 
-    print('len of total dataset: ', len(dataset))
+    # print('len of total dataset: ', len(dataset))
 
     # split data
     train_dataset = dataset.sample(frac=split_ratio[0], random_state=0)
     tmp_dataset = dataset.drop(train_dataset.index)
-    print('len of each dataset (train, tmp: ', len(train_dataset), len(tmp_dataset), 'split_ratio: ', split_ratio)
+    # print('len of each dataset (train, tmp: ', len(train_dataset), len(tmp_dataset), 'split_ratio: ', split_ratio)
 
     val_dataset = tmp_dataset.sample(frac=(split_ratio[1] / (split_ratio[1] + split_ratio[2])), random_state=0)
     test_dataset = tmp_dataset.drop(val_dataset.index)
-    print('len of each dataset (train, val, test): ', len(train_dataset), len(val_dataset), len(test_dataset))
+    # print('len of each dataset (train, val, test): ', len(train_dataset), len(val_dataset), len(test_dataset))
 
     batch_size = int(config['MODEL']['BatchSize'])
     if (batch_size > len(train_dataset) or (batch_size > len(val_dataset) and len(val_dataset) != 0) or batch_size > len(test_dataset)):
@@ -819,12 +868,12 @@ def prepare_data_from_csv_file(config, normalization_flag=True, verbose=0):
     except:
         pass
 
-    print('data_set info:', len(train_dataset), len(val_dataset), len(test_dataset), 'default batch size:', batch_size)
+    # print('data_set info:', len(train_dataset), len(val_dataset), len(test_dataset), 'default batch size:', batch_size)
     if (drop_data_flag):
         train_data_to_drop = len(train_dataset) % batch_size
         val_data_to_drop = len(val_dataset) % batch_size
         test_data_to_drop = len(test_dataset) % batch_size
-        print('to_drop:', train_data_to_drop, val_data_to_drop, test_data_to_drop)
+        # print('to_drop:', train_data_to_drop, val_data_to_drop, test_data_to_drop)
         if (train_data_to_drop == 0 and val_data_to_drop == 0 and test_data_to_drop == 0):
             print('the pre-set batch-size is good!')
         else:
@@ -885,29 +934,30 @@ def prepare_data_from_csv_file(config, normalization_flag=True, verbose=0):
         pass
 
     if DataNormOption == 0:
+        """ """
         # do nothing
-        print("---norm---: use 'mean' and 'std ' do the normalization (-1.7, 1.7)")
+        # print("---norm---: use 'mean' and 'std ' do the normalization (-1.7, 1.7)")
     elif DataNormOption == 1:
-        print("---norm---: use 0.5*(min+max) and 'max-min' do the normalization (-0.5, 0.5)")
+        # print("---norm---: use 0.5*(min+max) and 'max-min' do the normalization (-0.5, 0.5)")
         train_stats['mean'] = 0.5 * (train_stats['min'] + train_stats['max'])
         train_stats['std'] = (train_stats['max'] - train_stats['min'])
     elif DataNormOption == 2:
-        print("---norm---: use 0.5*(min+max) and 'max-min' do the normalization (0, 1)")
+        # print("---norm---: use 0.5*(min+max) and 'max-min' do the normalization (0, 1)")
         train_stats['mean'] = 0.5 * (train_stats['min'] + train_stats['max'])
         train_stats['std'] = (train_stats['max'] - train_stats['min'])
     elif DataNormOption == 3:
-        print("---norm---: use 0.5*(min+max) and 'max-min' do the normalization (-1, 1)")
+        # print("---norm---: use 0.5*(min+max) and 'max-min' do the normalization (-1, 1)")
         train_stats['mean'] = 0.5 * (train_stats['min'] + train_stats['max'])
         train_stats['std'] = 0.5 * (train_stats['max'] - train_stats['min'])
 
     # new_std = 0.5 * ( train_stats['std']['F12'] + train_stats['std']['F21'] )
     # train_stats['std']['F12'] = new_std
     # train_stats['std']['F21'] = new_std
-    print('std:', train_stats['std'])
-    print('mean:', train_stats['mean'])
+    # print('std:', train_stats['std'])
+    # print('mean:', train_stats['mean'])
 
     if (KBNN_flag):
-        print('replace old mean and old std')
+        # print('replace old mean and old std')
         old_features = getlist_str(config['KBNN']['OldEmbedFeatures'])
         if len(old_features) > 0:
             old_mean = getlist_float(config['KBNN']['OldEmbedMean'])
@@ -915,16 +965,16 @@ def prepare_data_from_csv_file(config, normalization_flag=True, verbose=0):
             for i0 in range(0, len(old_features)):
                 key0 = old_features[i0]
                 if any(key0 in s for s in all_fields):
-                    print('update std, mean of key0=', key0)
+                    # print('update std, mean of key0=', key0)
                     train_stats['std'][key0] = old_std[i0]
                     train_stats['mean'][key0] = old_mean[i0]
-            print('(after)std:', train_stats['std'])
-            print('(after)mean:', train_stats['mean'])
+            # print('(after)std:', train_stats['std'])
+            # print('(after)mean:', train_stats['mean'])
     # exit(0)
 
     label_scale = float(config['TEST']['LabelScale'])
     label_shift = float(config['TEST']['LabelShift'])
-    print('Label shift: ', label_shift)
+    # print('Label shift: ', label_shift)
 
     # get labels
     train_labels = dataset_pop_list(train_dataset, label_fields)
@@ -955,7 +1005,7 @@ def prepare_data_from_csv_file(config, normalization_flag=True, verbose=0):
         normed_test_derivative = test_derivative * std[0:len(test_derivative[0])]
         if (len(std) > len(test_derivative[0])):
             print("!!!Warning: features number in std is larger than the test derivative field. The first several features std is used to scale test_derivative!!!")
-        print('std:', std, ' label scale: ', label_scale)
+        # print('std:', std, ' label scale: ', label_scale)
         # print('test_derivative: ', test_derivative)
         # print('normed_test_derivative: ', normed_test_derivative)
 
@@ -979,6 +1029,9 @@ def prepare_data_from_csv_file(config, normalization_flag=True, verbose=0):
 
 
 def load_all_data_from_csv(config, normalization_flag=True, verbose=0):
+    """
+    Load all the data from a csv file
+    """
     data_file = config['TEST']['DataFile']
 
     all_fields = getlist_str(config['TEST']['AllFields'])
@@ -990,7 +1043,7 @@ def load_all_data_from_csv(config, normalization_flag=True, verbose=0):
     except:
         KBNN_flag = False
         pass
-    print(data_file)
+    # print(data_file)
     # if (KBNN_flag): # is enabled
     # raise ValueError("KBNN is not enabled for K-fold validation")
 
@@ -1049,26 +1102,27 @@ def load_all_data_from_csv(config, normalization_flag=True, verbose=0):
         pass
 
     if DataNormOption == 0:
+        """ """
         # do nothing
-        print("---norm---: use 'mean' and 'std ' do the normalization (-1.7, 1.7)")
+        # print("---norm---: use 'mean' and 'std ' do the normalization (-1.7, 1.7)")
     elif DataNormOption == 1:
-        print("---norm---: use 0.5*(min+max) and 'max-min' do the normalization (-0.5, 0.5)")
+        # print("---norm---: use 0.5*(min+max) and 'max-min' do the normalization (-0.5, 0.5)")
         train_stats['mean'] = 0.5 * (train_stats['min'] + train_stats['max'])
         train_stats['std'] = (train_stats['max'] - train_stats['min'])
     elif DataNormOption == 2:
-        print("---norm---: use 0.5*(min+max) and 'max-min' do the normalization (0, 1)")
+        # print("---norm---: use 0.5*(min+max) and 'max-min' do the normalization (0, 1)")
         train_stats['mean'] = 0.5 * (train_stats['min'] + train_stats['max'])
         train_stats['std'] = (train_stats['max'] - train_stats['min'])
     elif DataNormOption == 3:
-        print("---norm---: use 0.5*(min+max) and 'max-min' do the normalization (-1, 1)")
+        # print("---norm---: use 0.5*(min+max) and 'max-min' do the normalization (-1, 1)")
         train_stats['mean'] = 0.5 * (train_stats['min'] + train_stats['max'])
         train_stats['std'] = 0.5 * (train_stats['max'] - train_stats['min'])
 
-    print('std:', train_stats['std'])
-    print('mean:', train_stats['mean'])
+    # print('std:', train_stats['std'])
+    # print('mean:', train_stats['mean'])
 
     if (KBNN_flag):
-        print('replace old mean and old std')
+        # print('replace old mean and old std')
         old_features = getlist_str(config['KBNN']['OldEmbedFeatures'])
         if len(old_features) > 0:
             old_mean = getlist_float(config['KBNN']['OldEmbedMean'])
@@ -1076,15 +1130,15 @@ def load_all_data_from_csv(config, normalization_flag=True, verbose=0):
             for i0 in range(0, len(old_features)):
                 key0 = old_features[i0]
                 if any(key0 in s for s in all_fields):
-                    print('update std, mean of key0=', key0)
+                    # print('update std, mean of key0=', key0)
                     train_stats['std'][key0] = old_std[i0]
                     train_stats['mean'][key0] = old_mean[i0]
-            print('(after)std:', train_stats['std'])
-            print('(after)mean:', train_stats['mean'])
+            # print('(after)std:', train_stats['std'])
+            # print('(after)mean:', train_stats['mean'])
 
     label_scale = float(config['TEST']['LabelScale'])
     label_shift = float(config['TEST']['LabelShift'])
-    print('Label shift: ', label_shift)
+    # print('Label shift: ', label_shift)
 
     # get labels
     labels = dataset_pop_list(dataset, label_fields)
@@ -1107,7 +1161,7 @@ def load_all_data_from_csv(config, normalization_flag=True, verbose=0):
         normed_test_derivative = test_derivative * std[0:len(test_derivative[0])]
         if (len(std) > len(test_derivative[0])):
             print("!!!Warning: features number in std is larger than the test derivative field. The first several features std is used to scale test_derivative!!!")
-        print('std:', std, ' label scale: ', label_scale)
+        # print('std:', std, ' label scale: ', label_scale)
 
     if (normalization_flag):
         normed_dataset = norm(dataset, train_stats, DataNormOption)
@@ -1119,6 +1173,9 @@ def load_all_data_from_csv(config, normalization_flag=True, verbose=0):
 
 
 def inspect_cnn_features(model, config, test_dataset, savefig=False):
+    """
+    Output intermediate CNN results after each layer
+    """
     num_images = int(config['OUTPUT']['NumImages'])
     inspect_layers = getlist_int(config['OUTPUT']['InspectLayers'])
 
@@ -1126,7 +1183,7 @@ def inspect_cnn_features(model, config, test_dataset, savefig=False):
     for l0 in inspect_layers:
         out1 = model.check_layer(test_dataset[0:1], l0)
         total_images += tf.shape(out1[0]).numpy()[2]
-        print('total_images:', total_images)
+        # print('total_images:', total_images)
 
     if (int(np.sqrt(total_images)) * int(np.sqrt(total_images)) >= total_images):
         num_col = int(np.sqrt(total_images))
@@ -1155,7 +1212,9 @@ def inspect_cnn_features(model, config, test_dataset, savefig=False):
 
 
 def generate_dummy_dataset(old_config):
-    """ based on the label list, generate dummy dataset """
+    """ 
+    based on the label list, generate dummy dataset 
+    """
     all_fields = getlist_str(old_config['TEST']['AllFields'])
     label_fields = getlist_str(old_config['TEST']['LabelFields'])
     train_dataset = get_dummy_data(len(all_fields) - len(label_fields))
@@ -1167,7 +1226,7 @@ def special_input_case(inputs, input_case=''):
       for example, another DNN is for the frame 800, which has input only F11, F12, F21, F22, 
       whereas, the current model might have additional microstructure features, thus, the input
       needs to be sliced to fit for the old DNN. 
-  """
+    """
     if input_case != '':
 
         input_ind = getlist_int(input_case)

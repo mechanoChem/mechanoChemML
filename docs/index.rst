@@ -25,9 +25,6 @@ Using this library
 :doc:`workflows`
   Various workflows shipped with this library.
 
-:doc:`autoapi/index`  
-  Auto generated API information.
-
 
 Development
 ===========
@@ -37,6 +34,26 @@ Development
   
 :doc:`changelog`
   The library development changelog.
+
+List of examples
+================
+
+:doc:`activelearning`  
+
+:doc:`multiresolutionlearning`  
+
+:doc:`nnbasedpdesolver`  
+
+:doc:`systemid`  
+
+:doc:`nonlocalcalc`  
+
+API reference
+=============
+
+:doc:`autoapi/mechanoChemML/src/index`  
+
+:doc:`autoapi/mechanoChemML/workflows/index`  
 
 Cite mechanoChemML
 ==================
@@ -52,12 +69,12 @@ If you find this code useful in your research, please consider citing:
    installation
    codestructure
    workflows
-   autoapi/index
    contribute
    changelog
+   PyPI project page <https://pypi.org/project/mechanoChemML/>
 
 .. toctree::
-   :caption: List of workflows
+   :caption: List of examples
    :maxdepth: 2
    :hidden:
 
@@ -65,3 +82,12 @@ If you find this code useful in your research, please consider citing:
    multiresolutionlearning
    nnbasedpdesolver
    systemid
+   nonlocalcalc
+
+.. toctree::
+   :caption: API reference
+   :maxdepth: 2
+   :hidden:
+
+   autoapi/mechanoChemML/src/index
+   autoapi/mechanoChemML/workflows/index

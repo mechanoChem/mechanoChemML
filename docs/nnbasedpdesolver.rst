@@ -47,12 +47,29 @@ The following commands will run the deterministic NN-based PDE solver
     cd examples/pde_solver/Example1_diffusion_steady_state/
     python main.py octagon-32x32-cnn.ini
 
-The simulation results will be saved in the `results/` folder. The checkpoints are saved in the `restart/` folder. To run the Bayesian NN example with a warm start as discussed in [1], one need to provide the training summary `pickle` file from `results/` to `octagon-32x32-bnn.ini` at
+The simulation results will be saved in the `results/` folder. The checkpoints are saved in the `restart/` folder. 
+
+To run the Bayesian NN example with a `warm start` as discussed in [1], one need to provide the training summary `pickle` file from `results/` to `octagon-32x32-bnn.ini`. The training summary file can be found from
+
+.. code-block:: bash
+
+
+   ls results/\*.pickle
+
+One need to edit `octagon-32x32-bnn.ini`
+
+.. code-block:: bash
+
+   vi octagon-32x32-bnn.ini
+
+and provide the `pickle` to the variable `SaveCNNModel` in the input file
 
 .. code-block:: bash
 
     [NN]
-    SaveCNNModel = results/auto_generated_deterministic_model_summary.pickle
+    SaveCNNModel = results/{auto_generated_deterministic_model_summary}.pickle
+
+Please replace `{auto_generated_deterministic_model_summary}` with the actual name of the `pickle` file.
 
 Following that step, one can run the probabilistic NN-based PDE solver via
 

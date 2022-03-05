@@ -3,12 +3,16 @@ import pip
 
 def get_cuda_version():
     def get_version(output_info):
-        return output_info.split(' ')[-1].strip()[1:].split('.')
+        all_info = output_info.split('\n')
+        release_info = [x for x in all_info if x.find('release')>= 0]
+        return release_info[0].split(',')[-1].strip()[1:].split('.')
 
     cuda_version = None
+    # first try
     output_info = os.popen("nvcc --version").read()
     if output_info.find('release') >= 0:
         cuda_version = get_version(output_info)
+    # second try in case nvcc is not in the $PATH
     output_info = os.popen("/usr/local/cuda/bin/./nvcc --version").read()
     if output_info.find('release') >= 0:
         cuda_version = get_version(output_info)

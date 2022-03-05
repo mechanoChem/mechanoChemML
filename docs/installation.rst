@@ -11,12 +11,13 @@ A virtual Python package installation environment is isolated from the Python en
 Option 1 with Anaconda (recommended)
 ------------------------------------
 
+One can follow the `installation instruction <https://docs.anaconda.com/anaconda/install/>`_ to install `Anaconda <https://www.anaconda.com/>`_ or `Miniconda <https://docs.conda.io/en/latest/miniconda.html>`_. After conda is being activated, one can create a new environment.
 
 .. code-block:: bash
 
-  $ conda create --name mechanochemml python==3.7
+  $ (base) conda create --name mechanochemml python==3.7
 
-  $ conda activate mechanochemml
+  $ (base) conda activate mechanochemml
 
 
 Option 2 with pip virtualenv
@@ -34,6 +35,8 @@ Option 2 with pip virtualenv
 Install mechanoChemML
 =====================
 
+The following command will install the `mechanoChemML` library and the required libraries, except `TensorFlow`, whose version depends on the CUDA version on their machine.
+
 .. code-block:: bash
 
   $ (mechanochemml) pip install mechanoChemML
@@ -42,19 +45,22 @@ Install mechanoChemML
 Download examples
 =================
 
-One can either download the whole mechanoChemML library
+One can either download the whole `mechanoChemML` library
 
 .. code-block:: bash
 
   $ (mechanochemml) git clone https://github.com/mechanoChem/mechanoChemML.git mechanoChemML-master
 
-Or just download the examples provided by the mechanoChemML library
+Or just download the examples provided by the `mechanoChemML` library
 
 .. code-block:: bash
 
   $ (mechanochemml) svn export https://github.com/mechanoChem/mechanoChemML/trunk/examples ./examples
 
-One needs to run the following command to install the proper TensorFlow version, which is compatible with their CUDA version
+
+Install TensorFlow
+==================
+One needs to run the following command to install the proper `TensorFlow` version that is compatible with their CUDA version
 
 .. code-block:: bash
 
@@ -72,6 +78,8 @@ Compile local documentation
 
 Local code development
 ======================
+
+For developers, one can use the following command to re-compile the `mechanoChemML` library and install it locally to reflect the latest GitHub changes that are not available on `PyPi <https://pypi.org/project/mechanoChemML/>`_. The newly compiled `mechanoChemML` library will overwrite the old installed version.  
 
 .. code-block:: bash
 

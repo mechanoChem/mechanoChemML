@@ -9,11 +9,14 @@ import mechanoChemML.workflows.multi_resolution_learning.mrnn_utility as mrnn_ut
 
 ############################### learning rate #####################################
 def build_learningrate(config):
+    """
+    Build different learning rates based on the input
+    """
     LR = mrnn_utility.getlist_str(config['MODEL']['LearningRate'])
     # print('LR str: ', LR)
     if (len(LR) == 1):
         LearningRate = float(LR[0])
-        print('--Decay in mono rate: rate = ', LearningRate)
+        # print('--Decay in mono rate: rate = ', LearningRate)
     elif (len(LR) > 1):
         LR_type = LR[0]
         if (LR_type == 'mono'):
@@ -27,14 +30,14 @@ def build_learningrate(config):
                 decay_steps = int(LR[2])
             if len(LR) > 3:
                 decay_rate = float(LR[3])
-            print('--Decay in exponential rate: initial rate = ', initial_learning_rate, ', decay steps = ', decay_steps, ', decay_rate = ', decay_rate)
+            # print('--Decay in exponential rate: initial rate = ', initial_learning_rate, ', decay steps = ', decay_steps, ', decay_rate = ', decay_rate)
 
             if (mrnn_utility.get_package_version(tf.__version__)[0] == 1 and mrnn_utility.get_package_version(tf.__version__)[1] <= 13):
                 global_step = tf.Variable(0, name='global_step', trainable=False)
                 global_step = tf.train.get_global_step()
                 LearningRate = tf.train.exponential_decay(initial_learning_rate, global_step, decay_steps=decay_steps, decay_rate=decay_rate, staircase=True)
             else:
-                print("!!!! Caution: use Learning rate with care, there were occasions that tf1.13 should better performance on training. !!!")
+                # print("!!!! Caution: use Learning rate with care, there were occasions that tf1.13 should better performance on training. !!!")
                 global_step = tf.Variable(0, name='global_step', trainable=False)
                 LearningRate = tf.compat.v1.train.exponential_decay(initial_learning_rate, global_step, decay_steps=decay_steps, decay_rate=decay_rate, staircase=True)
         else:
@@ -48,11 +51,14 @@ def build_learningrate(config):
 ############################### optimizer #########################################
 
 def build_optimizer(config):
+    """
+    Build different optimizers based on the input
+    """
 
     ModelOptimizer = config['MODEL']['Optimizer']
     LearningRate = build_learningrate(config)
 
-    print('Avail Optimizer: ', ['adam', 'sgd', 'adadelta', 'gradientdescentoptimizer'])
+    # print('Avail Optimizer: ', ['adam', 'sgd', 'adadelta', 'gradientdescentoptimizer'])
 
     if (ModelOptimizer.lower() == "adam".lower()):
         optimizer = tf.keras.optimizers.Adam(LearningRate)
@@ -76,13 +82,18 @@ def build_optimizer(config):
 
 
 ############################# call back ####################################
-# Display training progress by printing a single dot for each completed epoch
 class callback_PrintDot(keras.callbacks.Callback):
+    """
+    Display training progress by printing a single dot for each completed epoch
+    """
     def on_epoch_end(self, epoch, logs):
         if epoch % 100 == 0:
             print('epoch: ', epoch, 'loss: ', logs['loss'], 'val_loss: ', logs['val_loss'])
 
 def check_point_callback(config):
+    """
+    Return the check point call back function
+    """
     checkpoint_dir = config['RESTART']['CheckPointDir'] + config['MODEL']['ParameterID']
     checkpoint_path = checkpoint_dir + "/cp-{epoch:04d}.ckpt"  
     period = int(config['RESTART']['CheckPointPeriod'])
@@ -97,6 +108,9 @@ def check_point_callback(config):
 
 
 def tensor_board_callback(config):
+    """
+    Return the tensor board call back function
+    """
     tensorboard_dir = config['OUTPUT']['TensorBoardDir'] + config['MODEL']['ParameterID']
     log_dir = tensorboard_dir + '/' + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
     if (mrnn_utility.get_package_version(tf.__version__)[0] == 1):
@@ -109,6 +123,9 @@ def tensor_board_callback(config):
 
 
 def build_callbacks(config):
+    """
+    Build different call back functions based on the input
+    """
     callbacks = []
     callback_names = mrnn_utility.getlist_str(config['MODEL']['CallBacks'])
 
@@ -128,15 +145,18 @@ def build_callbacks(config):
 
 ################################## loss ############################################
 def my_mse_loss():
-    # Create a mse loss function
+    """
+    Use defined mse loss function
+    """
     def loss(y_true, y_pred):
-        # raise ValueError(tf.shape(y_true), tf.shape(y_pred))
         return tf.reduce_mean(tf.square(y_pred - y_true))
-    # Return a function
     return loss
 
 
 def my_mse_loss_with_grad(BetaP=1000.0):
+    """
+    Use defined mse loss function with penalty term for physics-based constraint
+    """
     def loss(y_true, y_pred):
         # compute P based on S
         S_NN = y_pred[:, 1:5]
@@ -159,6 +179,9 @@ def my_mse_loss_with_grad(BetaP=1000.0):
 
 
 def build_loss(config, loss_model=None):
+    """
+    Build loss function based on the input
+    """
 
     ModelLoss = config['MODEL']['Loss']
 
@@ -181,8 +204,12 @@ def build_loss(config, loss_model=None):
 
 ##################################### model ##########################################
 def shift_labels(config, dataset, dataset_index, dataset_frame, data_file):
-    print("---!!!!--- reach shift_labels!!!!")
-    print("---!!!!--- Remember to modify old 'std', old 'mean' for DNN based KBNN")
+    """
+    Shift label based on the trained-NN predictions
+    """
+
+    # print("---!!!!--- reach shift_labels!!!!")
+    # print("---!!!!--- Remember to modify old 'std', old 'mean' for DNN based KBNN")
     trained_model_lists = mrnn_utility.getlist_str(config['KBNN']['LabelShiftingModels'])
     if len(trained_model_lists) > 0:
         # all_fields = mrnn_utility.getlist_str(config['TEST']['AllFields'])
@@ -196,24 +223,24 @@ def shift_labels(config, dataset, dataset_index, dataset_frame, data_file):
         # if label_fields[0] != all_fields[-1]:
         # raise ValueError('the single label for KBNN should put at the end of all label fields!')
 
-        print("---!!!!---  load trained model!!!!")
+        # print("---!!!!---  load trained model!!!!")
         old_models = load_trained_model(trained_model_lists)
-        print("---!!!!---  after load trained model!!!!")
+        # print("---!!!!---  after load trained model!!!!")
         key0 = label_fields[0]
         old_label_scale = mrnn_utility.getlist_float(config['KBNN']['OldShiftLabelScale'])
 
-        print('old shift features: ', config['KBNN']['OldShiftFeatures'])
+        # print('old shift features: ', config['KBNN']['OldShiftFeatures'])
 
         # to switch between vtk and other features
         if (config['KBNN']['OldShiftFeatures'].find('.vtk') >= 0):
-            """ """
-            print("--- here: vtk for label shift")
+            # """ """
+            # print("--- here: vtk for label shift")
             # index should not be used anymore.
             # use base frame info to do the base free energy shifting
             dataset_old = mrnn_utility.load_data_from_vtk_for_label_shift_frame(config, dataset_frame, normalization_flag=True, verbose=0)
         elif (config['KBNN']['OldShiftFeatures'].find('.npy') >= 0):
-            """ """
-            print("--- here: npy for label shift")
+            # """ """
+            # print("--- here: npy for label shift")
             # index should not be used anymore.
             # use base frame info to do the base free energy shifting
             dataset_old = mrnn_utility.load_data_from_npy_for_label_shift_frame(config, dataset_frame, normalization_flag=True, verbose=0)
@@ -267,13 +294,15 @@ def shift_labels(config, dataset, dataset_index, dataset_frame, data_file):
 
 
 def load_one_model(old_config_file):
-    """ Based on the config file name to load pre-saved model info"""
-    print('old_config_file:', old_config_file)
+    """ 
+    Based on the config file name to load pre-saved model info
+    """
+    # print('old_config_file:', old_config_file)
     old_config = mrnn_utility.read_config_file(old_config_file, False)
     old_data_file = old_config['TEST']['DataFile']
     if old_data_file.find('.csv') >= 0:
         dummy_train_dataset, dummy_train_labels = mrnn_utility.generate_dummy_dataset(old_config)
-        print('dummy_train_dataset:', dummy_train_dataset, 'dummy label: ', dummy_train_labels)
+        # print('dummy_train_dataset:', dummy_train_dataset, 'dummy label: ', dummy_train_labels)
     elif old_data_file.find('.vtk') >= 0:
         dummy_train_dataset, dummy_train_labels, _, _, _, _, _, _ = mrnn_utility.load_data_from_vtk_database(old_config, normalization_flag=True, verbose=0)
     else:
@@ -295,13 +324,16 @@ def load_one_model(old_config_file):
 
 
 def load_trained_model(trained_model_lists):
+    """
+    Load trained models
+    """
     old_models = []
     if (len(trained_model_lists) > 0):
         for m0 in trained_model_lists:
             model0 = load_one_model(m0)
-            print('Pre-trained Model summary: (before) ', m0, model0)
+            # print('Pre-trained Model summary: (before) ', m0, model0)
             model0.summary()
-            print('Pre-trained Model summary: (after) ', m0)
+            # print('Pre-trained Model summary: (after) ', m0)
             old_models.append(model0)
     return old_models
 
@@ -309,6 +341,9 @@ def load_trained_model(trained_model_lists):
 
 
 class user_DNN_kregl1l2_gauss_grad(tf.keras.Model):
+    """
+    DNN with regularization layers and Gaussian noise layers.
+    """
     def __init__(self, config, NodesList, Activation, train_dataset, train_labels, label_scale, train_stats):
         super(user_DNN_kregl1l2_gauss_grad, self).__init__()
         self.label_scale = label_scale
@@ -320,19 +355,19 @@ class user_DNN_kregl1l2_gauss_grad(tf.keras.Model):
 
         try:
             kreg_l2 = float(config['MODEL']['KRegL2'])
-            print('l2 regularize could potential cause the loss != mse')
+            # print('l2 regularize could potential cause the loss != mse')
         except:
             pass
 
         try:
             kreg_l1 = float(config['MODEL']['KRegL1'])
-            print('l1 regularize could potential cause the loss != mse')
+            # print('l1 regularize could potential cause the loss != mse')
         except:
             pass
 
         try:
             gauss_noise = float(config['MODEL']['GaussNoise'])
-            print('gauss noise could potential cause the loss != mse')
+            # print('gauss noise could potential cause the loss != mse')
         except:
             pass
 
@@ -392,7 +427,9 @@ class user_DNN_kregl1l2_gauss_grad(tf.keras.Model):
 
 
 class CNN_user_supervise(tf.keras.Model):
-    """ similar as CNN supervise, but with the check_layer() function  """
+    """ 
+    similar as CNN supervise, but with the check_layer() function  
+    """
     def __init__(self, input_shape, num_output, LayerName, NodesList, Activation, Padding, OutAct):
         super(CNN_user_supervise, self).__init__()
 
@@ -472,6 +509,9 @@ def user_DNN_kregl1l2_gauss_grad_setup(config, train_dataset, train_labels, Node
 
 
 def DNN_kregl1l2_gauss(config, train_dataset, train_labels, NodesList, Activation):
+    """
+    Customized DNN with different regularizations
+    """
     model = keras.Sequential()
     # activity_regularizer
     # bias_regularizer
@@ -482,19 +522,19 @@ def DNN_kregl1l2_gauss(config, train_dataset, train_labels, NodesList, Activatio
 
     try:
         kreg_l2 = float(config['MODEL']['KRegL2'])
-        print('l2 regularize could potential cause the loss != mse')
+        # print('l2 regularize could potential cause the loss != mse')
     except:
         pass
 
     try:
         kreg_l1 = float(config['MODEL']['KRegL1'])
-        print('l1 regularize could potential cause the loss != mse')
+        # print('l1 regularize could potential cause the loss != mse')
     except:
         pass
 
     try:
         gauss_noise = float(config['MODEL']['GaussNoise'])
-        print('gauss noise could potential cause the loss != mse')
+        # print('gauss noise could potential cause the loss != mse')
     except:
         pass
 
@@ -541,6 +581,9 @@ def DNN_kregl1l2_gauss(config, train_dataset, train_labels, NodesList, Activatio
 
 
 def add_input_layer(config, model, train_dataset, Name, Node, Act, padding='valid'):
+    """
+    Add different layers to the model
+    """
     # [1000, 28, 28, 1] -> [28, 28, 1]
     # print(train_dataset)
     # print(tf.shape(train_dataset.to_numpy()))
@@ -556,7 +599,7 @@ def add_input_layer(config, model, train_dataset, Name, Node, Act, padding='vali
     else:
         raise ValueError("Unknown tensorflow version: ", tf.__version__)
 
-    print('input_shape:', input_shape)
+    # print('input_shape:', input_shape)
 
     if (Name.lower().find('conv2d') >= 0):
         # _3_3 -> [3,3]
@@ -578,23 +621,26 @@ def add_input_layer(config, model, train_dataset, Name, Node, Act, padding='vali
     elif (Name.lower().find('dense') >= 0):
         model.add(layers.Dense(Node, activation=Act, input_shape=input_shape, name='input'))
     elif (Name.lower().find('lstm') >= 0):
-        print('!!!!input_shape:', input_shape, ' should be [1, 1]!!!!!')
+        # print('!!!!input_shape:', input_shape, ' should be [1, 1]!!!!!')
         model.add(layers.LSTM(Node, input_shape=(1, 1), return_sequences=True))
     elif (Name.lower().find('gru') >= 0):
-        print('!!!!input_shape:', input_shape, ' should be [1, 1]!!!!!')
+        # print('!!!!input_shape:', input_shape, ' should be [1, 1]!!!!!')
         model.add(layers.GRU(Node, input_shape=(1, 1), return_sequences=True))
     else:
         raise ValueError('The first layer can only be conv2d, your input is: ', Name)
 
 
 def add_one_layer(config, model, Name, Node, Act, padding='valid', tf_name=''):
+    """
+    Add different layers to the model
+    """
     if (Act == 'None'):
         Act = None
     # print('Name:', tf_name)
     if (Name.lower().find('maxpooling2d') >= 0):
         kernel = Name.split('_')[1:]
         kernel = [int(x) for x in kernel]
-        print('kernel:', kernel, 'padding:', padding)
+        # print('kernel:', kernel, 'padding:', padding)
         model.add(layers.MaxPooling2D(kernel, padding=padding, name=tf_name))
     elif (Name.lower().find('upsampling2d') >= 0):
         kernel = Name.split('_')[1:]
@@ -608,7 +654,7 @@ def add_one_layer(config, model, Name, Node, Act, padding='valid', tf_name=''):
         if len(kernel) == 4:
             strides = kernel[2:4]
         model.add(layers.Conv2D(Node, kernel[0:2], strides=strides, activation=Act, padding=padding, name=tf_name))
-        print('conv2d: ', Node, kernel, strides, Act, padding, tf_name)
+        # print('conv2d: ', Node, kernel, strides, Act, padding, tf_name)
     elif (Name.lower().find('conv3d') >= 0):
         kernel = Name.split('_')[1:]
         kernel = [int(x) for x in kernel]
@@ -631,11 +677,14 @@ def add_one_layer(config, model, Name, Node, Act, padding='valid', tf_name=''):
 
 
 def add_output_layer(config, model, train_labels):
-    print('****activation:---')
+    """
+    Add an output layer to the model
+    """
+    # print('****activation:---')
     Act = None
     try:
         Act = config['MODEL']['OutputLayerActivation']
-        print('****activation:---', Act)
+        # print('****activation:---', Act)
         if (Act == ''):
             Act = None
     except:
@@ -650,7 +699,7 @@ def add_output_layer(config, model, train_labels):
         except:
             pass
         pass
-    print('----activation:---', Act)
+    # print('----activation:---', Act)
 
     output_layer = 'Dense'
     try:
@@ -668,18 +717,24 @@ def add_output_layer(config, model, train_labels):
 
 
 def CNN_supervise(config, train_dataset, train_labels, NodesList, Activation, LayerName, Padding):
+    """
+    Generate a supervised CNN model based on the inputs
+    """
     model = keras.Sequential()
 
     add_input_layer(config, model, train_dataset, LayerName[0], NodesList[0], Activation[0], Padding[0])
     for i0 in range(1, len(NodesList)):
         add_one_layer(config, model, LayerName[i0], NodesList[i0], Activation[i0], Padding[i0], tf_name=LayerName[i0] + '-' + str(i0))
     add_output_layer(config, model, train_labels)
-    print('!!!supervise!!!')
+    # print('!!!supervise!!!')
 
     return model
 
 
 def CNN_user_supervise_setup(config, train_dataset, train_labels, NodesList, Activation, LayerName, Padding):
+    """
+    Generate a supervised CNN model based on the inputs
+    """
     # input_shape=tf.shape(train_dataset).numpy()[1:]
     if (tf.__version__[0:1] == '1'):
         # input_shape = train_dataset.get_shape().as_list()[1:]
@@ -692,7 +747,7 @@ def CNN_user_supervise_setup(config, train_dataset, train_labels, NodesList, Act
     else:
         raise ValueError("Unknown tensorflow version: ", tf.__version__)
 
-    print('input_shape:', input_shape)
+    # print('input_shape:', input_shape)
 
     num_output = 1
     try:
@@ -715,6 +770,9 @@ def CNN_user_supervise_setup(config, train_dataset, train_labels, NodesList, Act
 
 
 def build_model(config, train_dataset, train_labels, set_non_trainable=False, train_stats=None):
+    """
+    Build the NN model based on the input
+    """
     ModelArchitect = config['MODEL']['ModelArchitect']
 
     NodesList = mrnn_utility.getlist_int(config['MODEL']['NodesList'])
