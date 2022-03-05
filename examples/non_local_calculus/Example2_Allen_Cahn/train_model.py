@@ -22,6 +22,7 @@ if __name__ == "__main__":
 	#Concatenate different datasets
 	training_df = pd.concat([dataset['set%i'%i] for i in range(len(samples_ID))])
 	
+	print(training_df)
 	#Residue data for dc/dt = \sum_i^N (coef_i *basis_i)
 	###Extract important basis terms
 	keys = [
@@ -39,16 +40,16 @@ if __name__ == "__main__":
 				'GradE_M','LapC_M',
 				'LanE_M','dLan_M',					
 				]
-		rhs_basis = { 'B1': [*['partial__1__TE_P__'+_term+'__stencil' for _term in _rhs_basis],], 
+		rhs_basis = { 'B1': [*['partial__1__TE__'+_term+'__stencil' for _term in _rhs_basis],], 
 			'B2': [*['partial__1__TE__'+_term+'__stencil' for _term in _rhs_basis], 
-			*['partial__1__TE_P__'+_term+'__stencil' for _term in _rhs_basis]], 
+			*['partial__1__TE__'+_term+'__stencil' for _term in _rhs_basis]], 
 			'B3': [*['partial__1__TE__'+_term+'__stencil' for _term in _rhs_basis], 
-			*['partial__1__TE_P__'+_term+'__stencil' for _term in _rhs_basis],
+			*['partial__1__TE__'+_term+'__stencil' for _term in _rhs_basis],
 			*[_term for _term in _rhs_basis]]
 			}[key]
 		training_data_lhs = training_df.filter(lhs_basis).to_numpy()
 		training_data_rhs = training_df.filter(rhs_basis).to_numpy()
-		#ttraining_data_lhs = training_data_rhs*gamma => arget_index = 0 in config file and, 
+
 		data_mat = np.hstack((training_data_lhs,training_data_rhs)) 
 		print('Num data points: %i'%data_mat.shape[0])
 		print('Num basis: %i'%data_mat.shape[1])
@@ -76,5 +77,7 @@ if __name__ == "__main__":
 		result_df.insert(0, 'loss', problem.results['model'].loss[:])
 		result_df.insert(0, 'iter', np.arange(1,gamma_matrix.shape[0]+1))
 		
-		result_df.to_csv (r'./result/model_'+key+ '.csv', index = False, header=True)
+		if not os.path.isdir('./result'):
+			os.mkdir('./result')
+		result_df.to_csv ('./result/model_'+key+ '.csv', index = False, header=True)
 
