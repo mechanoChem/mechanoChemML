@@ -6,7 +6,8 @@
 ###################################
 
 import sys
-from mechanoChemML.src.systemID import systemID
+import numpy as np
+from mechanoChemML.workflows.systemID.systemID import systemID
 np.set_printoptions(precision=3)
 
 
@@ -23,7 +24,7 @@ if __name__ == "__main__":
     data_list=['bending']
     data=np.zeros(0)
     for shape in data_list:
-      data=np.loadtxt('basis/'+shape+'.dat')
+      data=np.loadtxt('../datasets/soft_materials/'+shape+'.dat')
       # #
       # # #################
       # # print('\n======= SystemID by stepwise regression by specified_target =======')
