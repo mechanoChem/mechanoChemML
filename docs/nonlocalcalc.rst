@@ -36,7 +36,7 @@ The following commands will estimate the derivatives
 .. code-block:: bash
 
     cd mechanoChemML/examples/non_local_calculus/Example1_Derivative_Calculation
-    python generate_data.py
+    python estimate_derivatives.py
 
 The result is saved in the `result/` folder. 
 

@@ -87,7 +87,7 @@ For developers, one can use the following command to re-compile the `mechanoChem
 
   $ (mechanochemml) python3 setup.py bdist_wheel sdist
 
-  $ (mechanochemml) pip3 install -e . --user
+  $ (mechanochemml) pip3 install -e .
 
 Run examples
 ============
