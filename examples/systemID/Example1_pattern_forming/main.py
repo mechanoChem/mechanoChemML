@@ -41,7 +41,6 @@ if __name__ == "__main__":
     
     # #
     # # #################
-    print('\n=====COMMENTS: SystemID by stepwise regression by specified_target =======')
     print('\n=====COMMENTS:In default setting:\n the target is dC_1/dt, and the correct solution is dC_1/dt=0.05nabla^2C_1+0.1-1C_1+1C_1^2C_2=======')
     print('\n=====COMMENTS: \nabla^2C_1, constant(1), C_1 and C_1^2C_2 are the 1th, third, forth and sixth operators in the lists=======')
     print('\n=====COMMENTS:"next the System identification results will summarize all prefactors for all operators.')
@@ -58,8 +57,15 @@ if __name__ == "__main__":
     # #################
     print('\n=====COMMENTS: SystemID by stepwise regression by confirmation_of_consistency =======')
     problem.confirmation_of_consistency(data)
-    print('results of confirmation_of_consistency :\n',problem.results['prefactor'])
+    #print('results of confirmation_of_consistency :\n',problem.results['prefactor'])
     cos_similiarity=np.triu(problem.results['cos_similiarity'])
     #
     index=np.where(np.abs(np.abs(cos_similiarity)-1+np.identity(cos_similiarity.shape[0]))<1.0e-5)
     print('consistent pairs :\n',list(zip(index[0], index[1])))
+    print('\n=====COMMENTS: The above consistent operator pairs tell the two operators are consistently "shown" in the data =======')
+    print('\n=====COMMENTS: From the above list, we could identify two sets of equations in the data: =======')
+    print('\n=====COMMENTS: Equation 1 with operator 0,2,3,5,12 as they are consistent with each other =======')
+    print('\n=====COMMENTS: Equation 2 with operator 7,8,11,13 as they are consistent with each other =======')
+
+
+

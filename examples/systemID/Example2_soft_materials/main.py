@@ -13,6 +13,9 @@ np.set_printoptions(precision=3)
 
 if __name__ == "__main__":    
     print('======= SystemID Example 2: Constitutive modeling of soft materials =======')
+    print('\n=====COMMENTS: This is the "simple version" of Exmaple in our paper: =======')
+    print(' Z. Wang, J.B. Estrada, E.M. Arruda, K. Garikipati, Inference of deformation mechanisms and constitutive response of soft material surrogates of biological tissue by full-field characterization and data-driven variational system identification, Journal of the Mechanics and Physics of Solids, Volume 153, 2021. =======')
+
     #generate data 
     #from forward_model import *
     #threeField_neo_Hookean()
