@@ -15,6 +15,7 @@ Description
 
 The high-throughput solution of PDEs for inverse modelling, design and optimization leads to requirements of very fast solutions that are largely beyond the capability of traditional PDE solver libraries.The NN-based PDE solver workflow is developed for such purpose, which could predict the full field solutions orders faster than the traditional PDE solvers. Such solver works for both small dataset, which only contains a few of BVPs, and large dataset, which could contain hundreds of thousands BVPs.
 
+
 Examples
 ========
 
@@ -35,7 +36,64 @@ Since the NN-based PDE solver only takes BCs information as inputs, the training
 
 .. code-block:: bash
 
-    cd examples/pde_solver/Example1_diffusion_steady_state/data
+    ls examples/pde_solver/Example1_diffusion_steady_state/data
+
+
+Configuration file
+^^^^^^^^^^^^^^^^^^
+
+Input parameters are defined in the .ini configuration file. For deterministic NNs, the data location is given by  
+
+.. literalinclude:: ../examples/pde_solver/Example1_diffusion_steady_state/octagon-32x32-cnn.ini 
+   :lines: 1-3
+
+For small dataset, it will be augmented by 2^# times with # given at   
+
+.. literalinclude:: ../examples/pde_solver/Example1_diffusion_steady_state/octagon-32x32-cnn.ini 
+   :lines: 4
+
+The training information is given at 
+
+.. literalinclude:: ../examples/pde_solver/Example1_diffusion_steady_state/octagon-32x32-cnn.ini 
+   :lines: 5-9
+
+where InitialEpoch refers to the zero initialization in [1].
+
+The NN architecture is given at 
+
+.. literalinclude:: ../examples/pde_solver/Example1_diffusion_steady_state/octagon-32x32-cnn.ini 
+   :lines: 10-29
+
+which includes a list of Conv2D, MaxPooling2D, Dense, UpSampling2D layers. The PDERandom layer refers to the process where we fill random numbers to the interior region of a domain in the Dirichlet channel of augmented dataset to ensure each input is independent from each other.
+
+For Bayesian NNs (BNN), similar as for the deterministic NNs, the data location is given by  
+
+.. literalinclude:: ../examples/pde_solver/Example1_diffusion_steady_state/octagon-32x32-bnn.ini 
+   :lines: 1-3
+
+For small dataset, it will be augmented by 2^# times with # given at   
+
+.. literalinclude:: ../examples/pde_solver/Example1_diffusion_steady_state/octagon-32x32-bnn.ini 
+   :lines: 4
+
+The training information is given at 
+
+.. literalinclude:: ../examples/pde_solver/Example1_diffusion_steady_state/octagon-32x32-bnn.ini 
+   :lines: 5-13
+
+where InitialEpoch refers to the zero initialization in [1]. Note, if we train the BNNs with cold start, the zero initialization will play a role. If the BNNs are trained with warm start, zero initialization process will be skipped. Sigma1 is the additive noise applied to the solution. The initial value of Sigma2 is provided, which will evolve during the training.
+
+For warm start, one needs to provide the training log file (saved as a .pickle file in the results/) to the following line.
+
+.. literalinclude:: ../examples/pde_solver/Example1_diffusion_steady_state/octagon-32x32-bnn.ini 
+   :lines: 14
+
+The NN architecture is given at 
+
+.. literalinclude:: ../examples/pde_solver/Example1_diffusion_steady_state/octagon-32x32-cnn.ini 
+   :lines: 15-34
+
+which includes a list of Convolution2DFlipout, MaxPooling2D, DenseFlipout, UpSampling2D layers. Again, the PDERandom layer refers to the process where we fill random numbers to the interior region of a domain in the Dirichlet channel of augmented dataset to ensure each input is independent from each other.
 
 How to run the example
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -75,7 +133,6 @@ Following that step, one can run the probabilistic NN-based PDE solver via
 
 .. code-block:: bash
 
-    cd examples/pde_solver/Example1_diffusion_steady_state/
     python main.py octagon-32x32-bnn.ini
 
 Note: tensorflow and tensorflow-probability libraries installed by the requirements.txt are CPU-based distributions. If you have a CUDA-enabled machine, you can also install the GPU versions of these two libraries to speedup the training. In general, tensorflow version needs to be greater than 2.2. The version of tensorflow-probability needs to be compatible with the version of tensorflow.

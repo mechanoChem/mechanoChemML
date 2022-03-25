@@ -35,28 +35,6 @@ from mechanoChemML.src.nn_models import BNN_user_weak_pde_general
 import mechanoChemML.src.pde_layers as pde_layers
 from mechanoChemML.workflows.pde_solver.pde_utility import plot_PDE_solutions, plot_fields, split_data, expand_dataset, exe_cmd, BatchData, plot_one_field_hist, plot_one_field_stat, plot_one_field,plot_PDE_solutions_new
 
-print('host:', socket.gethostname())
-if socket.gethostname() == 'Destiny':
-    physical_devices = tf.config.list_physical_devices('GPU')
-    try:
-      tf.config.experimental.set_memory_growth(physical_devices[0], True)
-    except:
-      # Invalid device or cannot modify virtual devices once initialized.
-      pass
-elif socket.gethostname().find('gpu-cn') >= 0:
-    physical_devices = tf.config.list_physical_devices('GPU')
-    try:
-      tf.config.experimental.set_memory_growth(physical_devices[0], True)
-    except:
-      # Invalid device or cannot modify virtual devices once initialized.
-      pass
-    os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
-    print('all devices: ', physical_devices)
-    print("dynamic memory growth host", physical_devices)
-else:
-    physical_devices = tf.config.list_physical_devices('GPU')
-    print('all devices: ', physical_devices)
-    print("no dynamic memory growth")
 
 class PDEWorkflowSteadyState:
     """
@@ -121,7 +99,11 @@ class PDEWorkflowSteadyState:
         self.data_path = self.config['NN']['DataPath']
         self.NNOptimizer = self.config['NN']['Optimizer']
         self.LR0 = float(self.config['NN']['LearningRate'])
-        self.NeumannFirst = int(self.config['NN']['NeumannFirst'])
+
+        try:
+            self.NeumannFirst = int(self.config['NN']['NeumannFirst'])
+        except:
+            self.NeumannFirst = 0
 
         try:
             self.FixLoc = int(self.config['NN']['FixLoc'])
