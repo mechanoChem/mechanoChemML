@@ -18,7 +18,7 @@ mechanoChemML is a machine learning software library for computational materials
 
 # License
 
-GNU Lesser General Public License (LGPL) v3.0. Please see the file LICENSE for details. 
+BSD 4-Clause license. Please see the file LICENSE for details. 
 
 # Installation
 

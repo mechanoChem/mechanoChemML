@@ -22,7 +22,7 @@ setup(
         author_email='zhangxiaoxuan258@gmail.com',
         classifiers=[
             "Programming Language :: Python :: 3.7",
-            "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
+            "License :: OSI Approved :: BSD License",
             ],
         install_requires=required,
         extras_require = {
