@@ -30,7 +30,7 @@ if __name__ == '__main__':
     plt.ylabel('loss')
     plt.legend()
     # plt.axis('equal')
-    plt.savefig('kbnn-dnn-1-frame-learning.pdf', bbox_inches='tight', format='pdf')
+    plt.savefig('kbnn-dnn-1-frame-learning.png', bbox_inches='tight', format='png')
     plt.show()
 
     #----------------------plot 2---------------------------------------
@@ -40,12 +40,11 @@ if __name__ == '__main__':
     xmax = max(max(all_data['test_label']), max(all_data['test_nn']))
     plt.plot([xmin, xmax], [xmin, xmax], 'k-', lw=1.0)
 
-    plt.axes().set_aspect('equal', 'box')
     plt.xlim([xmin, xmax])
     plt.ylim([xmin, xmax])
     plt.xlabel('$\Delta\Psi_{\mathrm{mech,DNS}}$')
     plt.ylabel('$\Delta\Psi_{\mathrm{mech,KBNN}}$')
-    plt.savefig('kbnn-dnn-1-frame-test.pdf', bbox_inches='tight', format='pdf')
+    plt.savefig('kbnn-dnn-1-frame-test.png', bbox_inches='tight', format='png')
     plt.show()
 
     #----------------------plot 3---------------------------------------
@@ -76,7 +75,7 @@ if __name__ == '__main__':
         _ = plt.plot([amin, amax], [amin, amax], 'k-', lw=1.0)
         plt.xlim([amin, amax])
         plt.ylim([amin, amax])
-        plt.savefig('kbnn-dnn-1-frame-' + pre_fix + '.pdf', bbox_inches='tight', format='pdf')
+        plt.savefig('kbnn-dnn-1-frame-' + pre_fix + '.png', bbox_inches='tight', format='png')
         plt.show()
 
     plot_P_one_field(plt, all_P['P_DNS'], all_P['P_NN'], 0)

@@ -28,7 +28,7 @@ if __name__ == '__main__':
     plt.ylabel('loss')
     plt.legend()
     # plt.axis('equal')
-    plt.savefig('1dns-free-energy-learning-dnn.pdf', bbox_inches='tight', format='pdf')
+    plt.savefig('1dns-free-energy-learning-dnn.png', bbox_inches='tight', format='png')
     plt.show()
 
     #----------------------plot 2---------------------------------------
@@ -38,13 +38,13 @@ if __name__ == '__main__':
     xmax = max(max(all_data['test_label']), max(all_data['test_nn']))
     plt.plot([xmin, xmax], [xmin, xmax], 'k-', lw=1.0)
 
-    plt.axes().set_aspect('equal', 'box')
     plt.xlim([xmin, xmax])
     plt.ylim([xmin, xmax])
     plt.xlabel('$\Psi^0_{\mathrm{mech,DNS}}$')
     plt.ylabel('$\Psi^0_{\mathrm{mech,DNN}}$')
-    plt.savefig('1dns-free-energy-test-dnn.pdf', bbox_inches='tight', format='pdf')
+    plt.savefig('1dns-free-energy-test-dnn.png', bbox_inches='tight', format='png')
     plt.show()
+    # ----------------------------------------------------------------------
 
     all_dns_data = all_data['train_label']
     all_dns_data.extend(all_data['val_label'])
@@ -54,7 +54,7 @@ if __name__ == '__main__':
     all_nn_data.extend(all_data['val_nn'])
     all_nn_data.extend(all_data['test_nn'])
 
-    reference_data_file = '../data/_home_xiaoxuan_comet_quench-20191012-60x60-c_large_8data.csv'
+    reference_data_file = '../data/data_8.csv'
     sep = ','
     fields = ['index', 'Psi_me']
     selected_cols = pd.read_csv(reference_data_file, index_col=False, sep=sep, usecols=fields, skipinitialspace=True)[fields]
@@ -85,5 +85,5 @@ if __name__ == '__main__':
     plt.xlim([0, 900])
     # plt.axis('equal')
     plt.legend()
-    plt.savefig('1dns-free-energy-predict-all-dnn.pdf', bbox_inches='tight', format='pdf')
+    plt.savefig('1dns-free-energy-predict-all-dnn.png', bbox_inches='tight', format='png')
     plt.show()
