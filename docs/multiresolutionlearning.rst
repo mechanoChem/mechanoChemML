@@ -154,7 +154,7 @@ The training log and NN prediction are saved in the output pickle files. To plot
 
     python plot_data_and_history.py all_data_{timestamp}.pickle
 
-Please replace the "{timestamp}" with the actual timestamp info from the output. We will get the training loss and NN results for the main feature and detailed feature of data.
+Please replace the "{timestamp}" with the actual timestamp info from the output. We will get the training loss and NN results for the main feature of data.
 
 .. figure:: figures/mr-learning-problem-results-1.png 
    :scale: 50 %
@@ -251,6 +251,14 @@ Once the input file is modified, one can run the following to train the NN.
 
 Results
 """""""
+
+The training log and NN prediction are saved in the output pickle files. To plot the results, one needs to run
+
+.. code-block:: bash
+
+    python plot_data_and_history.py all_data_{timestamp}.pickle
+
+Please replace the "{timestamp}" with the actual timestamp info from the output. We will get the training loss and NN results for the detailed feature of data.
 
 References
 ==========
