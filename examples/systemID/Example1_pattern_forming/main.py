@@ -62,10 +62,10 @@ if __name__ == "__main__":
     #
     index=np.where(np.abs(np.abs(cos_similiarity)-1+np.identity(cos_similiarity.shape[0]))<1.0e-5)
     print('consistent pairs :\n',list(zip(index[0], index[1])))
-    print('\n=====COMMENTS: The above consistent operator pairs tell the two operators are consistently "shown" in the data =======')
-    print('\n=====COMMENTS: From the above list, we could identify two sets of equations in the data: =======')
-    print('\n=====COMMENTS: Equation 1 with operator 0,2,3,5,12 as they are consistent with each other =======')
-    print('\n=====COMMENTS: Equation 2 with operator 7,8,11,13 as they are consistent with each other =======')
+    print('\n=====COMMENTS: The above consistent operator pairs tell the two operators are consistently "shown" in the data')
+    print('\nFrom the above list, we could identify two sets of equations in the data:')
+    print('\nEquation 1 with operator 0,2,3,5,12 as they are consistent with each other ')
+    print('\nEquation 2 with operator 7,8,11,13 as they are consistent with each other =======')
 
 
 
