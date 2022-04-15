@@ -21,11 +21,13 @@ Example 1: Pattern formation
 ----------------------------
 The example used here is identifying the governing equation of Turing pattern physics:
 
-.. figure:: figures/systemID_equations.png
+.. figure:: figures/systemID_flowchart_doc.png
    :scale: 15 %
    :align: center
 
- For an activator-inhibitor species pair, these equations use auto-inhibition with cross-activation of a short range species, and auto-activation with cross-inhibition of a long range species to form so-called Turing patterns:
+   Schematic of the Variational System Identification.
+
+For an activator-inhibitor species pair, these equations use auto-inhibition with cross-activation of a short range species, and auto-activation with cross-inhibition of a long range species to form so-called Turing patterns:
 
 .. figure:: figures/Schnakenberg_C1.png
    :scale: 15 %
@@ -45,9 +47,9 @@ The bases (operators) can be constucted afterward (required FEniCS enabled):
 .. literalinclude:: ../examples/systemID/Example1_pattern_forming/main.py 
    :lines: 26-27
 
- Note the bases are also pre-calculated and save in the datasets, therefore in this example the data can be directly loaded from the data set. By defaults we constructed 14 operators with the following labeling:
+Note the bases are also pre-calculated and save in the datasets, therefore in this example the data can be directly loaded from the data set. By defaults we constructed 14 operators with the following labeling:
 
- .. figure:: figures/systemID_operators.png
+.. figure:: figures/systemID_operators.png
    :scale: 20 %
    :align: center
 
