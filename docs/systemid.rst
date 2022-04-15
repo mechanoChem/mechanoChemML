@@ -21,7 +21,7 @@ Example 1: Pattern formation
 ----------------------------
 The example used here is identifying the governing equation of Turing pattern physics:
 
-.. figure:: figures/Schnakenberg_C1.png
+.. figure:: figures/systemID_equations.png
    :scale: 15 %
    :align: center
 
@@ -74,7 +74,7 @@ The following commands will run the problem with the configuration file.
 	 
 Results
 
-The final result is one array with non-zero prefactors for active operators and zero prefactors for non-active operators. Note by default we set the target operator to be the 
+Note in this example we choose the operator #12 (the time derivative of C1) as the target operator, therefore, we will identify the frist equations. The final result is one array with non-zero prefactors for active operators and zero prefactors for non-active operators. From the following array we can idenfity that operators #0, #2, #3 and #5 are active with prefactors 0.05, 0.1, -1 and 1.
 
 .. code-block:: bash
       Final result: [ 0.05  0.    0.1  -1.    0.    1.    0.    0.    0.    0.    0.    0.  0.  ]
