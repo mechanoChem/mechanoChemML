@@ -21,7 +21,7 @@ Example 1: Pattern formation
 ----------------------------
 The example used here is identifying the governing equation of Turing pattern physics:
 
-.. figure:: figures/systemID_equations.png
+.. figure:: figures/Schnakenberg_C1.png
    :scale: 15 %
    :align: center
 
