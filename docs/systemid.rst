@@ -77,6 +77,12 @@ Results
 Note in this example we choose the operator #12 (the time derivative of C1) as the target operator, therefore, we will identify the frist equations. The final result is one array with non-zero prefactors for active operators and zero prefactors for non-active operators. From the following array we can idenfity that operators #0, #2, #3 and #5 are active with prefactors 0.05, 0.1, -1 and 1.
 
 .. code-block:: bash
+
+    cd examples/systemID/Example1_pattern_forming/
+    python main.py config_Example1.ini
+
+.. code-block:: bash
+
       Final result: [ 0.05  0.    0.1  -1.    0.    1.    0.    0.    0.    0.    0.    0.  0.  ]
 
 
