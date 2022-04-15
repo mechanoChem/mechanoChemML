@@ -19,10 +19,16 @@ Examples
 
 Example 1: Pattern formation
 ----------------------------
-The example used here is identifying the governing equation of Turing pattern physics. For an activator-inhibitor species pair, these equations use auto-inhibition with cross-activation of a short range species, and auto-activation with cross-inhibition of a long range species to form so-called Turing patterns:
+The example used here is identifying the governing equation of Turing pattern physics:
+
+.. figure:: figures/systemID_equations.png
+   :scale: 15 %
+   :align: center
+
+ For an activator-inhibitor species pair, these equations use auto-inhibition with cross-activation of a short range species, and auto-activation with cross-inhibition of a long range species to form so-called Turing patterns:
 
 .. figure:: figures/Schnakenberg_C1.png
-   :scale: 20 %
+   :scale: 15 %
    :align: center
 
    Example of the composition simulated using the Schnakenberg kinetics model.
@@ -38,7 +44,11 @@ The bases (operators) can be constucted afterward (required FEniCS enabled):
 .. literalinclude:: ../examples/systemID/Example1_pattern_forming/main.py 
    :lines: 26-27
 
- Note the bases are also pre-calculated and save in the datasets, therefore in this example the data can be directly loaded from the data set. Please refer to Examples at MechanoChemFEM for details. 
+ Note the bases are also pre-calculated and save in the datasets, therefore in this example the data can be directly loaded from the data set. By defaults we constructed 14 operators with the following labeling:
+
+ .. figure:: figures/systemID_operators
+   :scale: 20 %
+   :align: center
 
 Configuration file
 ^^^^^^^^^^^^^^^^^^
@@ -63,6 +73,11 @@ The following commands will run the problem with the configuration file.
 
 	 
 Results
+
+The final result is one array with non-zero prefactors for active operators and zero prefactors for non-active operators. Note by default we set the target operator to be the 
+
+.. code-block:: bash
+      Final result: [ 0.05  0.    0.1  -1.    0.    1.    0.    0.    0.    0.    0.    0.  0.  ]
 
 
 References
