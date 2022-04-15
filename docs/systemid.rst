@@ -21,7 +21,7 @@ Example 1: Pattern formation
 ----------------------------
 The example used here is identifying the governing equation of Turing pattern physics:
 
-.. figure:: figures/systemID_equations.pn
+.. figure:: figures/systemID_equations.png
    :scale: 15 %
    :align: center
 
@@ -46,7 +46,7 @@ The bases (operators) can be constucted afterward (required FEniCS enabled):
 
  Note the bases are also pre-calculated and save in the datasets, therefore in this example the data can be directly loaded from the data set. By defaults we constructed 14 operators with the following labeling:
 
- .. figure:: figures/systemID_operators
+ .. figure:: figures/systemID_operators.png
    :scale: 20 %
    :align: center
 
