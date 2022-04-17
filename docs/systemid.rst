@@ -84,7 +84,59 @@ Note in this example we choose the operator #12 (the time derivative of C1) as t
       Final result: [ 0.05  0.    0.1  -1.    0.    1.    0.    0.    0.    0.    0.    0.  0.  ]
 
 
+Example 2: Inference of deformation mechanisms and constitutive response of soft material
+The example used here is to infer the physically best-suited and parsimonious mathematical models of the soft material mechanical response. A commonly used constitutive model for isotropic and nearly incompressible soft biological tissue and polymers is the neo-Hookean strain energy density function:
+
+.. figure:: figures/systemID_equations_2.png
+   :scale: 40 %
+   :align: center
+
+This example considers a number of deformation mechanisms as possible candidates in the strain energy density function. 
+
+.. figure:: figures/systemID_equations_3.png
+   :scale: 40 %
+   :align: center
+
+In this example we aim to identify the strain energy density function with the full field synthetic data from forward computations on rectangular prismatic blocks:
+
+.. figure:: figures/system_ID_bending.png
+   :scale: 20 %
+   :align: center
+
+
+Configuration file
+^^^^^^^^^^^^^^^^^^
+Standard parameters in the workflow can be defined in the .ini configuration file. Again, in VSI part, the identifying strategy and target operator index can be defined:
+
+.. literalinclude:: ../examples/systemID/Example2_soft_materials/config_Example2.ini
+   :lines: 5-10
+
+In Stepwise regression part, we can define the settings to perform stepwise regression.
+
+.. literalinclude:: ../examples/systemID/Example2_soft_materials/config_Example2.ini
+   :lines: 12-19
+
+How to run the example
+
+The following commands will run the problem with the configuration file.
+
+.. code-block:: bash
+
+    cd examples/systemID/Example2_soft_materials/
+    python main.py config_Example2.ini
+
+
+Results
+
+From the following array we can identify the bulk and shear moduli with correct values.
+
+.. code-block:: bash
+
+      Final result: [ 40.  -0.  -0.  -0.  -0.  -0. 400.  -0.]
+
 References
 ==========
 
 Z. Wang, X. Huan, K. Garikipati. "Variational system identification of the partial differential equations governing microstructure evolution in materials: Inference over sparse and spatially unrelated data", Computer Methods in Applied Mechanics and Engineering Vol 377, 113706, 2021, doi.org/10.1016/j.cma.2021.113706.
+
+Z. Wang, J.B. Estrada, E.M. Arruda, K. Garikipati. "Discovery of deformation mechanisms and constitutive response of soft material surrogates of biological tissue by full-field characterization and data-driven variational system identification", Journal of the Mechanics and Physics of Solids Vol. 153, 104474, 2021
