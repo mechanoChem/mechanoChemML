@@ -25,7 +25,6 @@ The example used here is identifying the governing equation of Turing pattern ph
    :scale: 70 %
    :align: center
 
-   Schematic of the Variational System Identification.
 
 For an activator-inhibitor species pair, these equations use auto-inhibition with cross-activation of a short range species, and auto-activation with cross-inhibition of a long range species to form so-called Turing patterns:
 
