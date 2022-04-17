@@ -65,6 +65,7 @@ In Stepwise regression part, we can define the settings to perform stepwise regr
    :lines: 12-19
 
 How to run the example
+^^^^^^^^^^^^^^^^^^^^^^
 
 The following commands will run the problem with the configuration file.
 
@@ -75,6 +76,7 @@ The following commands will run the problem with the configuration file.
 
 	 
 Results
+^^^^^^^
 
 Note in this example we choose the operator #12 (the time derivative of C1) as the target operator, therefore, we will identify the frist equations. The final result is one array with non-zero prefactors for active operators and zero prefactors for non-active operators. From the following array we can identify that operators #0, #2, #3 and #5 are active with prefactors 0.05, 0.1, -1 and 1.
 
@@ -84,22 +86,24 @@ Note in this example we choose the operator #12 (the time derivative of C1) as t
 
 
 Example 2: Inference of deformation mechanisms and constitutive response of soft material
+-----------------------------------------------------------------------------------------
+
 The example used here is to infer the physically best-suited and parsimonious mathematical models of the soft material mechanical response. A commonly used constitutive model for isotropic and nearly incompressible soft biological tissue and polymers is the neo-Hookean strain energy density function:
 
 .. figure:: figures/systemID_equations_2.png
-   :scale: 40 %
+   :scale: 60 %
    :align: center
 
 This example considers a number of deformation mechanisms as possible candidates in the strain energy density function. 
 
 .. figure:: figures/systemID_equations_3.png
-   :scale: 40 %
+   :scale: 60 %
    :align: center
 
 In this example we aim to identify the strain energy density function with the full field synthetic data from forward computations on rectangular prismatic blocks:
 
 .. figure:: figures/system_ID_bending.png
-   :scale: 20 %
+   :scale: 80 %
    :align: center
 
 
@@ -116,6 +120,7 @@ In Stepwise regression part, we can define the settings to perform stepwise regr
    :lines: 12-19
 
 How to run the example
+^^^^^^^^^^^^^^^^^^^^^^
 
 The following commands will run the problem with the configuration file.
 
@@ -126,6 +131,7 @@ The following commands will run the problem with the configuration file.
 
 
 Results
+^^^^^^^
 
 From the following array we can identify the bulk and shear moduli with correct values.
 
