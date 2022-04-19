@@ -1,6 +1,6 @@
-import keras
-from keras.layers import Lambda
-import keras.backend as K
+from tensorflow import keras
+from tensorflow.keras.layers import Lambda
+import tensorflow.keras.backend as K
 import marshal, base64, types
 import numpy as np
 

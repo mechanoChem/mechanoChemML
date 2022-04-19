@@ -15,8 +15,8 @@ from mechanoChemML.workflows.active_learning.data_generation_wrapper import subm
 import tensorflow as tf
 from sobol_seq import i4_sobol
 
-import keras
-from keras.callbacks import CSVLogger, ReduceLROnPlateau, EarlyStopping
+from tensorflow import keras
+from tensorflow.keras.callbacks import CSVLogger, ReduceLROnPlateau, EarlyStopping
 from configparser import ConfigParser
 
 ############ Active learning class #######

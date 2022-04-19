@@ -1,9 +1,9 @@
 import tensorflow as tf
 import numpy as np
-import keras
-from keras.models import Model
-from keras.layers import Input, Dense, Lambda, Dropout, Add
-import keras.backend as K
+from tensorflow import keras
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Input, Dense, Lambda, Dropout, Add
+import tensorflow.keras.backend as K
 
 def DNN(input_dim,hidden_units,output_dim=1,dropout=None,final_bias=False):
     # Define dense layers
