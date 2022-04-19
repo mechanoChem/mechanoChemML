@@ -260,6 +260,25 @@ The training log and NN prediction are saved in the output pickle files. To plot
 
 Please replace the "{timestamp}" with the actual timestamp info from the output. We will get the training loss and NN results for the detailed feature of data.
 
+.. figure:: figures/mr-learning-problem-results-4.png 
+   :scale: 50 %
+   :align: center
+
+   Training loss
+
+.. figure:: figures/mr-learning-problem-results-5.png
+   :scale: 50 %
+   :align: center
+
+   NN predicted detailed feature
+
+
+.. figure:: figures/mr-learning-problem-results-6.png
+   :scale: 50 %
+   :align: center
+
+   NN predicted derivative of detailed feature (P11) 
+
 References
 ==========
 
