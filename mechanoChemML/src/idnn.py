@@ -1,9 +1,9 @@
 import sys, os
 
-import keras
-from keras.models import Model
-from keras.layers import Input, Dense, Lambda, Dropout, Concatenate, Reshape
-import keras.backend as K
+from tensorflow import keras
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Input, Dense, Lambda, Dropout, Concatenate, Reshape
+import tensorflow.keras.backend as K
 from mechanoChemML.src.gradient_layer import Gradient
 from mechanoChemML.src.transform_layer import Transform
 import tensorflow as tf

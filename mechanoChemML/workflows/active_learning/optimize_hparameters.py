@@ -4,9 +4,9 @@ import sys, os
 
 import numpy as np
 from mechanoChemML.src.idnn import IDNN
-from mechanoChemML.workflows.active_learning.Example1_NiAl.CASM_wrapper import loadCASMOutput
+from mechanoChemML.workflows.active_learning.data_generation_wrapper import loadCASMOutput
 import sys
-import keras
+from tensorflow import keras
 
 set_i = int(sys.argv[1])
 read = int(sys.argv[2])

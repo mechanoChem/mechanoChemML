@@ -8,15 +8,15 @@ from shutil import copyfile
 from mechanoChemML.src.idnn import IDNN, find_wells
 from mechanoChemML.src.gradient_layer import Gradient
 from mechanoChemML.src.transform_layer import Transform
-from mechanoChemML.workflows.active_learning.Example1_NiAl.hp_search import hyperparameterSearch
+from mechanoChemML.workflows.active_learning.hp_search import hyperparameterSearch
 
 from importlib import import_module
-from mechanoChemML.workflows.active_learning.Example1_NiAl.CASM_wrapper import submitCASM, compileCASMOutput, loadCASMOutput
+from mechanoChemML.workflows.active_learning.data_generation_wrapper import submitCASM, compileCASMOutput, loadCASMOutput
 import tensorflow as tf
 from sobol_seq import i4_sobol
 
-import keras
-from keras.callbacks import CSVLogger, ReduceLROnPlateau, EarlyStopping
+from tensorflow import keras
+from tensorflow.keras.callbacks import CSVLogger, ReduceLROnPlateau, EarlyStopping
 from configparser import ConfigParser
 
 ############ Active learning class #######

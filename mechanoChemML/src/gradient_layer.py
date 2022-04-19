@@ -1,6 +1,6 @@
-import keras
-import keras.backend as K
-from keras.layers import Lambda, Concatenate
+from tensorflow import keras
+import tensorflow.keras.backend as K
+from tensorflow.keras.layers import Lambda, Concatenate
 
 class Gradient(keras.layers.Layer):
   """
