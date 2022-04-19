@@ -4,7 +4,7 @@ import sys, os
 
 import numpy as np
 from mechanoChemML.src.idnn import IDNN
-from mechanoChemML.workflows.active_learning.Example1_NiAl.CASM_wrapper import loadCASMOutput
+from mechanoChemML.workflows.active_learning.data_generation_wrapper import loadCASMOutput
 import sys
 import keras
 
