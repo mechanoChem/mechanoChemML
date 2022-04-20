@@ -28,8 +28,7 @@ Following is the folder structure of the mechanoChemML library:
    | │       └── systemID
    | ├── examples
    | │   ├── active_learning
-   | │   |   ├── Example1_NiAl
-   | │   |   └── Example2_LCO
+   | │   |   └── Example1_NiAl
    | │   ├── mr_learning
    | │   |   └── Example1_single_microstructure_dnn
    | │   ├── pde_solver
@@ -38,8 +37,10 @@ Following is the folder structure of the mechanoChemML library:
    | │   |   └── Example3_nonlinear_elasticity
    | │   │── systemID
    | │   |   ├── Example1_pattern_forming
-   | │   |   ├── Example2_soft_materials
-   | │   |   └── Example3_polynomial
+   | │   |   └── Example2_soft_materials
+   | │   │── non_local_calculus
+   | │   |   ├── Example1_Derivative_Calculation
+   | │   |   └── Example2_Allen_Cahn
 
 
 In the folder structure above:
