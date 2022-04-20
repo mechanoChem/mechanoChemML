@@ -3,7 +3,6 @@ import sys, os
 
 import numpy as np
 from mechanoChemML.src.idnn import IDNN
-from mechanoChemML.src.gradient_layer import Gradient
 from mechanoChemML.src.transform_layer import Transform
 import json
 
@@ -17,9 +16,6 @@ def transforms(x):
               x[:,1]*x[:,1]*x[:,2]*x[:,2])
     
     return [h0,h1,h2,h3]
-
-#print('load model...')
-#idnn = keras.models.load_model(os.path.dirname(__file__)+'/idnn_test.h5',custom_objects={'Gradient': Gradient})
 
 print('recreate model...')
 hidden_layers = [70, 70]

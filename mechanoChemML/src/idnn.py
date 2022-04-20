@@ -4,7 +4,6 @@ from tensorflow import keras
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input, Dense, Lambda, Dropout, Concatenate, Reshape
 import tensorflow.keras.backend as K
-from mechanoChemML.src.gradient_layer import Gradient
 from mechanoChemML.src.transform_layer import Transform
 import tensorflow as tf
 
@@ -23,9 +22,6 @@ class IDNN(tf.keras.Model):
   :param hidden_units: List containing the number of neurons in each hidden layer
   :type hidden_units: [int]
 
-  :param output_dim: Size of the output vector (default is 1)
-  :type output_dim: int
-
   :param dropout: Dropout parameter applied after each hidden layer (default is None)
   :type dropout: float
 
@@ -38,9 +34,9 @@ class IDNN(tf.keras.Model):
   :param final_bias: if True, a bias is applied to the output layer (this cannot be used if only derivative data is used in training); if False, no bias is applied to the output layer (default is False)
   :type final_bias: bool
 
-  The idnn can be trained with first derivative (gradient) data, second derivative (Hessian) data, and/or data from the function itself. (If only derivative data is used then the ``final_bias`` parameter must be ``False``.) The training data for the function and its derivatives can be given at the same input values (in which case, ``unique_inputs`` should be ``False``), or at different input values, e.g. providing the function values at :math:`x \in \{0,1,2,3\}` and the derivative values at :math:`x \in \{0.5,1.5,2.5,3.5\}` (requiring ``unique_inputs`` to be ``True``). Even when ``unique_inputs`` is ``True``, however, the same number of data points must be given for the derivatives and function, even though the input values themselves are different. So, for example, if one had first derivative values at :math:`x \in \{0,1,2,3\}` and second derivative values only at :math:`x \in \{0.5,1.5,2.5\}`, then some of the second derivative data would need to be repeated to that the number of data points are equal, e.g. :math:`x \in \{0.5,1.5,2.5,2.5\}`.
+  The idnn can be trained with first derivative (gradient) data, second derivative (Hessian) data, and/or data from the function itself. (If only derivative data is used then the ``final_bias`` parameter must be ``False``.) The training data for the function and its derivatives can be given at the same input values (in which case, ``unique_inputs`` should be ``False``), or at different input values, e.g. providing the function values at :math:`x \in \{0,1,2,3\}` and the derivative values at :math:`x \in \{0.5,1.5,2.5,3.5\}` (requiring ``unique_inputs`` to be ``True``). Even when ``unique_inputs`` is ``True``, however, the same number of data points must be given for the derivatives and function, even though the input values themselves are different. So, for example, if one had first derivative values at :math:`x \in \{0,1,2,3\}` and second derivative values only at :math:`x \in \{0.5,1.5,2.5\}`, then some of the second derivative data would need to be repeated to that the number of data points are equal, e.g. :math:`x \in \{0.5,1.5,2.5,2.5\}`. Currently, the IDNN structure assumes the function output is a scalar, the gradient is a vector, and the Hessian is a matrix.
 
-  The following is an example where values for the function and the first derivative are used for training, but they are known at different input values. Note that the loss and loss_weights are defined only for the given data (in the order [function,first_der,second_der]):
+  The following is an example where values for the function and the first derivative are used for training, but they are known at different input values. Note that the loss and loss_weights are defined only for the given data (function data and first derivatative data), but fictitious data has to be given for the second derivative or an error will be thrown:
 
   .. code-block:: python 
 
@@ -53,14 +49,14 @@ class IDNN(tf.keras.Model):
              loss_weights=[0.01,1,None],
              optimizer=keras.optimizers.RMSprop(lr=0.01))
 
-     idnn.fit([c_train0,c_train,c_train],
-              [g_train0,mu_train],
+     idnn.fit([c_train0,c_train,0*c_train],
+              [g_train0,mu_train,0*mu_train],
               epochs=50000,
               batch_size=20)
 
   """
 
-  def __init__(self, input_dim,hidden_units,output_dim=1,activation='softplus',dropout=None,transforms=None,unique_inputs=False,final_bias=False):
+  def __init__(self, input_dim,hidden_units,activation='softplus',dropout=None,transforms=None,unique_inputs=False,final_bias=False):
     super().__init__()
     
     self.transforms = transforms
@@ -73,7 +69,7 @@ class IDNN(tf.keras.Model):
       self.dnn_layers.append(Dense(hidden_units[i], activation=activation))
       if dropout:
         self.dnn_layers.append(Dropout(dropout))
-    self.dnn_layers.append(Dense(output_dim,use_bias=final_bias))
+    self.dnn_layers.append(Dense(1,use_bias=final_bias))
         
   @tf.function(autograph=False)
   def call(self, inputs):
@@ -140,7 +136,7 @@ def find_wells(idnn,x,dim=4,bounds=[0,0.25],rereference=True):
     # Find "wells" (regions of convexity, with low gradient norm)
 
     # First, rereference the free energy
-    if isinstance(idnn.input,list):
+    if idnn.unique_inputs:
         pred = idnn.predict([x,x,x])
     else:
         pred = idnn.predict(x)

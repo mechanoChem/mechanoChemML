@@ -7,8 +7,6 @@ from shutil import copyfile
 from operator import itemgetter
 
 from importlib import import_module
-#from mechanoChemML.workflows.active_learning.LSF_manager import numCurrentJobs, submitJob
-#from mechanoChemML.workflows.active_learning.slurm_manager import numCurrentJobs, submitJob
 from time import sleep
 
 def submitHPSearch(n_sets,rnd,job_manager):
@@ -91,10 +89,9 @@ def hyperparameterSearch(rnd,N_sets,job_manager='LSF'):
     writeHP.close()
 
     # Clean up checkpoint files
-    #os.rename('idnn_{}_{}.h5'.format(rnd,sortedHP[0][2]),'idnn_{}.h5'.format(rnd))
     copyfile('training/training_{}.txt'.format(sortedHP[0][2]),'training/training_{}.txt'.format(rnd))
-    os.rename('idnn_{}.h5'.format(sortedHP[0][2]),'idnn_{}.h5'.format(rnd))
+    os.rename('idnn_{}'.format(sortedHP[0][2]),'idnn_{}'.format(rnd))
     for i in range(N_sets):
-        shutil.rmtree('idnn_{}_{}.h5'.format(rnd,i),ignore_errors=True)
+        shutil.rmtree('idnn_{}_{}'.format(rnd,i),ignore_errors=True)
 
     return sortedHP[0][1],sortedHP[0][0] #hidden_units, learning_rate

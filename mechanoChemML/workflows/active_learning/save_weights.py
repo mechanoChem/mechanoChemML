@@ -5,7 +5,6 @@ from tensorflow import keras
 import sys, os
 
 from mechanoChemML.src.idnn import IDNN
-from mechanoChemML.src.gradient_layer import Gradient
 from mechanoChemML.src.transform_layer import Transform
 
 def transforms(x):
@@ -21,9 +20,8 @@ def transforms(x):
 
 
 rnd = 12
-idnn = keras.models.load_model(f'idnn_{rnd}.h5',
-                               custom_objects={'Gradient': Gradient, 
-                                               'Transform': Transform(transforms)})
+idnn = keras.models.load_model(f'idnn_{rnd}',
+                               custom_objects={'Transform': Transform(transforms)})
 i = 0
 weights = []
 biases = []

@@ -2,8 +2,7 @@
 
 import numpy as np
 import sys, os
-
-from mechanoChemML.src.gradient_layer import Gradient
+import tensorflow as tf
 from mechanoChemML.src.idnn import IDNN, find_wells
 
 def idnn_convexity_test():
@@ -15,8 +14,9 @@ def idnn_convexity_test():
     b2 = np.array([0])
 
     idnn = IDNN(2,[8],final_bias=True)
-    idnn.layers[1].set_weights([w1,b1])
-    idnn.layers[2].set_weights([w2,b2])
+    idnn.build(input_shape=(1,2))
+    idnn.dnn_layers[0].set_weights([w1,b1])
+    idnn.dnn_layers[1].set_weights([w2,b2])
 
     # Create random selection of test points within [0,0.25]x[0,0.25]
     # Function will return points within a well
@@ -34,7 +34,10 @@ def idnn_convexity_test():
     for point in points:
         if point not in wells and point[0] < 0.10303402 and point[1] < 0.10303402:
             success = False
-        
+
+    print(wells)
+    print(points)
+    
     if success:
         print('Find wells test: passed')
     else:

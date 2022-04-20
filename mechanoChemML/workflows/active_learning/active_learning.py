@@ -6,7 +6,6 @@ import numpy as np
 import shutil
 from shutil import copyfile
 from mechanoChemML.src.idnn import IDNN, find_wells
-from mechanoChemML.src.gradient_layer import Gradient
 from mechanoChemML.src.transform_layer import Transform
 from mechanoChemML.workflows.active_learning.hp_search import hyperparameterSearch
 
@@ -228,7 +227,7 @@ class Active_learning(object):
                       callbacks=[csv_logger,
                                  reduceOnPlateau,
                                  earlyStopping])
-        self.idnn.save('idnn_{}.h5'.format(rnd))
+        self.idnn.save('idnn_{}'.format(rnd))
 
     ########################################
         
@@ -248,9 +247,8 @@ class Active_learning(object):
 
             if rnd==1:
                 self.hyperparameter_search(rnd)
-                custom_objects = {'Gradient': Gradient, 
-                                  'Transform': Transform(self.IDNN_transforms())}
-                self.idnn = keras.models.load_model('idnn_1.h5',
+                custom_objects = {'Transform': Transform(self.IDNN_transforms())}
+                self.idnn = keras.models.load_model('idnn_1',
                                                     custom_objects=custom_objects)
                 
             self.surrogate_training(rnd)
