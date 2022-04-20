@@ -219,8 +219,8 @@ class Active_learning(object):
         csv_logger = CSVLogger('training/training_{}.txt'.format(rnd),append=True)
         reduceOnPlateau = ReduceLROnPlateau(factor=0.5,patience=100,min_lr=1.e-4)
         earlyStopping = EarlyStopping(patience=150)
-        self.idnn.fit([eta_train0,eta_train,eta_train],
-                      [100.*g_train0,100.*mu_train],
+        self.idnn.fit([eta_train0,eta_train,0*eta_train],
+                      [100.*g_train0,100.*mu_train,0*mu_train],
                       validation_split=0.25,
                       epochs=self.Epochs,
                       batch_size=self.Batch_size,
