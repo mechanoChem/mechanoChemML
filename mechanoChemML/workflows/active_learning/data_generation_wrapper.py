@@ -48,11 +48,11 @@ def submitCASM(N_jobs,mu_test,eta,rnd,casm_project_dir='.',test=False,job_manage
             command = 'cd job_1; python -u {}/data_generation_surrogate.py monte_settings_1.json; cd ../'.format(os.path.dirname(__file__))
         elif job_manager == 'LSF':
             command = ['cd job_$LSB_JOBINDEX'.format(casm_project_dir),
-                       'python -u {}/CASM_surrogate.py monte_settings_$LSB_JOBINDEX.json'.format(os.path.dirname(__file__)),
+                       'python -u {}/data_generation_surrogate.py monte_settings_$LSB_JOBINDEX.json'.format(os.path.dirname(__file__)),
                        'cd ../'] 
         elif job_manager == 'slurm':
             command = ['cd job_$SLURM_ARRAY_TASK_ID'.format(casm_project_dir),
-                       'python -u {}/CASM_surrogate.py monte_settings_$SLURM_ARRAY_TASK_ID.json'.format(os.path.dirname(__file__)),
+                       'python -u {}/data_generation_surrogate.py monte_settings_$SLURM_ARRAY_TASK_ID.json'.format(os.path.dirname(__file__)),
                        'cd ../']
     else:
         if job_manager == 'PC':
