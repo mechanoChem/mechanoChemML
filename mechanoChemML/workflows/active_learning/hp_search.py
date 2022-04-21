@@ -22,8 +22,9 @@ def submitHPSearch(n_sets,rnd,job_manager):
     :type rnd: int
     
     """
-
-    if job_manager == 'LSF':
+    if job_manager=='PC':
+        from subprocess import call
+    elif job_manager == 'LSF':
         from mechanoChemML.workflows.active_learning.LSF_manager import submitJob, waitForAll
         specs = {'job_name':'optimizeHParameters',
                  'queue': 'gpu_p100',
@@ -35,7 +36,7 @@ def submitHPSearch(n_sets,rnd,job_manager):
                  'total_memory':'3G',
                  'output_folder':'outputFiles',
                  'queue': 'shared'}
-        
+
     # Compare n_sets of random hyperparameters; choose the set that gives the lowest l2norm
     for i in range(n_sets):
         read = 0 # read in previous hyperparameters if read not zero
@@ -43,9 +44,13 @@ def submitHPSearch(n_sets,rnd,job_manager):
             read = i+1
 
         command = ['python '+os.path.dirname(__file__)+'/optimize_hparameters.py '+str(i)+' '+str(read)+' '+str(rnd)]
-        submitJob(command,specs)
+        if job_manager=='PC':
+            call(command[0],shell=True)
+        else:            
+            submitJob(command,specs)
 
-    waitForAll('optimizeHParameters')
+    if job_manager!='PC':
+        waitForAll('optimizeHParameters')
 
 
 def hyperparameterSearch(rnd,N_sets,job_manager='LSF'):
@@ -90,6 +95,7 @@ def hyperparameterSearch(rnd,N_sets,job_manager='LSF'):
 
     # Clean up checkpoint files
     copyfile('training/training_{}.txt'.format(sortedHP[0][2]),'training/training_{}.txt'.format(rnd))
+    shutil.rmtree('idnn_{}'.format(rnd),ignore_errors=True)
     os.rename('idnn_{}'.format(sortedHP[0][2]),'idnn_{}'.format(rnd))
     for i in range(N_sets):
         shutil.rmtree('idnn_{}_{}'.format(rnd,i),ignore_errors=True)

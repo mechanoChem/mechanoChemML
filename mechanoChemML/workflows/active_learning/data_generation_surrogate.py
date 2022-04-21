@@ -24,10 +24,11 @@ idnn = IDNN(4,
             transforms=transforms,
             final_bias=True)
 
+idnn.build(input_shape=(1,4))
 for i in range(len(hidden_layers)+1):
-    w = np.loadtxt(os.path.dirname(__file__)+'/test_weights/weights_{}.txt'.format(i),ndmin=2)
-    b = np.loadtxt(os.path.dirname(__file__)+'/test_weights/bias_{}.txt'.format(i),ndmin=1)
-    idnn.layers[i+2].set_weights([w,b])
+    w = np.loadtxt(os.path.dirname(__file__)+'/surrogate_weights/weights_{}.txt'.format(i),ndmin=2)
+    b = np.loadtxt(os.path.dirname(__file__)+'/surrogate_weights/bias_{}.txt'.format(i),ndmin=1)
+    idnn.dnn_layers[i].set_weights([w,b])
 
 print('read input...')
 # Read in the casm Monte Carlo input file

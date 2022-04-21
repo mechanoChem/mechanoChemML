@@ -12,6 +12,7 @@ set_i = int(sys.argv[1])
 read = int(sys.argv[2])
 rnd = int(sys.argv[3])
 
+print('-----------------',rnd,'------------------------')
 # Randomly choose hyperparameters
 if (read == 0 or rnd <= 2):
     learning_rate = 5.*np.power(10.,-1.-2.*np.random.rand(1)[0],dtype=np.float32)
@@ -72,14 +73,14 @@ g_train0 = np.zeros((eta_train.shape[0],1))
         
 # train
 history = idnn.fit([eta_train0,eta_train,eta_train],
-                   [100.*g_train0,100.*mu_train],
+                   [100.*g_train0,100.*mu_train,0*mu_train],
                    validation_split=0.25,
                    epochs=250,
                    batch_size=100,
                    callbacks=[csv_logger,
                               reduceOnPlateau,
                               earlyStopping])
-idnn.save('idnn_{}_{}.h5'.format(rnd,set_i))
+idnn.save('idnn_{}_{}'.format(rnd,set_i))
 
 valid_loss = history.history['val_loss'][-1]
 

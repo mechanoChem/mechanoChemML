@@ -73,7 +73,11 @@ class Active_learning(object):
         self.N_hp_sets = int(config['HYPERPARAMETERS']['N_sets'])
         self.Dropout = float(config['HYPERPARAMETERS']['Dropout'])
         self.dim = 4
-        
+        if self.job_manager == 'PC' and self.N_jobs > 1:
+            self.N_jobs = 1
+            self.casm_project_dir = '.'
+            print("WARNING: only one processor is allowed for running on your personal computer; CPUNum is overridden by 1")
+                        
     ########################################
 
     def create_test_set(self,N_points,dim,bounds=[0.,1.],seed=1):
@@ -248,8 +252,11 @@ class Active_learning(object):
             if rnd==1:
                 self.hyperparameter_search(rnd)
                 custom_objects = {'Transform': Transform(self.IDNN_transforms())}
+                
+                unique_inputs = self.idnn.unique_inputs
                 self.idnn = keras.models.load_model('idnn_1',
                                                     custom_objects=custom_objects)
+                self.idnn.unique_inputs = unique_inputs
                 
             self.surrogate_training(rnd)
             self.local_sampling(2*rnd+1)

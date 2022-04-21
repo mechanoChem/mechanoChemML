@@ -144,7 +144,7 @@ def find_wells(idnn,x,dim=4,bounds=[0,0.25],rereference=True):
     if rereference:
         eta_test = np.array([bounds[0]*np.ones(dim),
                              bounds[1]*np.ones(dim)])
-        if isinstance(idnn.input,list):
+        if idnn.unique_inputs:
             y = 0.01*idnn.predict([eta_test,eta_test,eta_test])[0]
         else:
             y = 0.01*idnn.predict(eta_test)[0]
