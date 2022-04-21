@@ -11,4 +11,4 @@
 #SBATCH -e errors-%j.e
 #SBATCH --export=ALL
 
-python -u ~/mechanochemml-release/examples/active_learning/Example1_NiAl/main_test.py
+python -u main_test.py
