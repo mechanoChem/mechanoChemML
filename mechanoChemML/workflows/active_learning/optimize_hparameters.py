@@ -12,7 +12,6 @@ set_i = int(sys.argv[1])
 read = int(sys.argv[2])
 rnd = int(sys.argv[3])
 
-print('-----------------',rnd,'------------------------')
 # Randomly choose hyperparameters
 if (read == 0 or rnd <= 2):
     learning_rate = 5.*np.power(10.,-1.-2.*np.random.rand(1)[0],dtype=np.float32)
