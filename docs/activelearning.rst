@@ -34,12 +34,12 @@ Next, we read in the parameters defined in the configuration file, such as the n
 
 The following function defines a test set, or a sample set. Here, points are first sampled from the sublattice composition space, since the bounds are well-defined: [0,1]. Sampling is done with a Sobol sequence because if its space-filling and noncollapsing design. These values are then converted from sublattice compositions to order parameters through a linear operation. Finally, only points with average composition less than or equal to 0.25 are taken, since the crystal structure changes from FCC to BCC at that point.
 	   
-.. literalinclude:: ../mechanoChemML/workflows/active_learning/Example1_NiAl/active_learning.py
+.. literalinclude:: ../mechanoChemML/workflows/active_learning/active_learning.py
    :lines: 83-101
 
 At each iteration of the workflow, an approximation of the free energy and the chemical potential are needed. For the first iteration before any data have been computed, we use the free energy of an ideal solution. For subsequent iterations, the current IDNN is used.
 	   
-.. literalinclude:: ../mechanoChemML/workflows/active_learning/Example1_NiAl/active_learning.py
+.. literalinclude:: ../mechanoChemML/workflows/active_learning/active_learning.py
    :lines: 105-118
 
 The active learning workflow consists of alternating between global and local sampling of the composition/order parameter space. Global sampling uses the create_test_set function defined previously to sample across the full domain, then submitting these points to the CASM code to compute the chemical potentials and order parameters.
@@ -84,17 +84,17 @@ Standard parameters in the workflow can be defined in the .ini configuration fil
 
 The deep numerical simlation (DNS) and high performance computing (HPC) settings can be defined here, including the DNS model and any addition parameters required by the model:
 
-.. literalinclude:: ../mechanoChemML/examples/active_learning/Example1_NiAl/NiAl_free_energy.ini
+.. literalinclude:: ../examples/active_learning/Example1_NiAl/NiAl_free_energy.ini
    :lines: 1-7
 
 Next, define parameters related to the neural network surrogate model:
 	   
-.. literalinclude:: ../mechanoChemML/exampless/active_learning/Example1_NiAl/NiAl_free_energy.ini
+.. literalinclude:: ../examples/active_learning/Example1_NiAl/NiAl_free_energy.ini
    :lines: 9-18
 
 Finally, there are additional parameters specific to the active learning workflow itself:
 
-.. literalinclude:: ../mechanoChemML/exampless/active_learning/Example1_NiAl/NiAl_free_energy.ini
+.. literalinclude:: ../examples/active_learning/Example1_NiAl/NiAl_free_energy.ini
    :lines: 20-22
 
 
