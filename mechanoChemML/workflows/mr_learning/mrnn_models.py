@@ -5,7 +5,7 @@ from tensorflow.keras import layers
 from tensorflow.keras import regularizers
 import numpy as np
 import sys, os, datetime
-import mechanoChemML.workflows.multi_resolution_learning.mrnn_utility as mrnn_utility
+import mechanoChemML.workflows.mr_learning.mrnn_utility as mrnn_utility
 
 ############################### learning rate #####################################
 def build_learningrate(config):

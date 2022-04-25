@@ -23,7 +23,7 @@ Following is the folder structure of the mechanoChemML library:
    | │   ├── third_party
    | │   └── workflows
    | │       ├── active_learning
-   | │       ├── multi_resolution_learning
+   | │       ├── mr_learning
    | │       ├── pde_solver
    | │       └── systemID
    | ├── examples
@@ -54,7 +54,7 @@ In the folder structure above:
 - ``mechanoChemML-master/mechanoChemML/third_party`` is the directory, where scripts to use third party libraries reside.
 - ``mechanoChemML-master/mechanoChemML/workflows`` is the directory, where the workflows reside.
 - ``mechanoChemML-master/mechanoChemML/workflows/active_learning`` is the directory, where the active learning workflows reside.
-- ``mechanoChemML-master/mechanoChemML/workflows/multi_resolution_learning`` is the directory, where the multi-resolution learning workflows reside.
+- ``mechanoChemML-master/mechanoChemML/workflows/mr_learning`` is the directory, where the multi-resolution learning workflows reside.
 - ``mechanoChemML-master/mechanoChemML/workflows/pde_solver`` is the directory, where the NN-based PDE solver workflows reside.
 - ``mechanoChemML-master/mechanoChemML/workflows/systemID`` is the directory, where the system identification workflows reside.
 - ``mechanoChemML-master/examples/`` is the directory, where the workflow examples reside.

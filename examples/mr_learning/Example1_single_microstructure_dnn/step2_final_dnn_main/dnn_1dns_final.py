@@ -11,8 +11,8 @@ import pandas as pd
 
 import os, sys
 import datetime
-import mechanoChemML.workflows.multi_resolution_learning.mrnn_utility as mrnn_utility
-import mechanoChemML.workflows.multi_resolution_learning.mrnn_models as mrnn_models
+import mechanoChemML.workflows.mr_learning.mrnn_utility as mrnn_utility
+import mechanoChemML.workflows.mr_learning.mrnn_models as mrnn_models
 import mechanoChemML.src.kfold_train as KFoldTrain
 
 args = mrnn_utility.sys_args()
