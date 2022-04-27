@@ -17,11 +17,11 @@ if __name__ == "__main__":
     print(' Z. Wang, J.B. Estrada, E.M. Arruda, K. Garikipati, Inference of deformation mechanisms and constitutive response of soft material surrogates of biological tissue by full-field characterization and data-driven variational system identification, Journal of the Mechanics and Physics of Solids, Volume 153, 2021. =======')
 
     #generate data 
-    #from forward_model import *
+    # from mechanoChemML.workflows.systemID.soft_materials_forward_model import *
     #threeField_neo_Hookean()
     
     #construct operators
-    # from generate_basis import *
+    # from mechanoChemML.workflows.systemID.soft_materials_generate_basis import *
     # data_list=['extension','extension_2','bending','torsion']
     # generate_basis(data_list=data_list)
     data_list=['bending']

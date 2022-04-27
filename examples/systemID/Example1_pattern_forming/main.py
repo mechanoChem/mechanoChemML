@@ -17,13 +17,13 @@ if __name__ == "__main__":
     print('=====COMMENTS: SystemID Example 1: Pattern formation-Schnakenberg_model =======')
     ####### Require FEniCS: #######
     #generate data 
-    #from forward_model import *
+    # from mechanoChemML.workflows.systemID.pattern_forming_forward_model import *
     #Schnakenberg_model()
     
     #construct operators
     # choose data to use
     # data_list=np.arange(50,60)
-    # from generate_basis import *
+    # from mechanoChemML.workflows.systemID.pattern_forming_generate_basis import *
     # generate_basis(data_list=data_list)
     print('\n=====COMMENTS: In this example we constructed 13 operators in Eq. 19 and Eq.20 =======')
 
