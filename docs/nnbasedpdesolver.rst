@@ -94,7 +94,7 @@ For warm start, one needs to provide the training log file (saved as a .pickle f
 
 The NN architecture is given at 
 
-.. literalinclude:: ../examples/pde_solver/Example1_diffusion_steady_state/octagon-32x32-cnn.ini 
+.. literalinclude:: ../examples/pde_solver/Example1_diffusion_steady_state/octagon-32x32-bnn.ini 
    :lines: 14-33
 
 which includes a list of Convolution2DFlipout, MaxPooling2D, DenseFlipout, UpSampling2D layers. Again, the PDERandom layer refers to the process where we fill random numbers to the interior region of a domain in the Dirichlet channel of augmented dataset to ensure each input is independent from each other.

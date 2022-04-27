@@ -64,6 +64,20 @@ Step 8: you can track the pull requests
    :scale: 45 %
    :align: center
 
+Workflow contribution
+=====================
+
+You are welcome to contribute new workflows to this library. The steps to contribute a workflow are the same as these discussed in `Code contribution`_. However, it is very beneficial if one can provide a complete set of the following components to make the workflow more approachable:
+
+- re-usable classes/functions to ``mechanoChemML/mechanoChemML/src``
+- workflow specific code to ``mechanoChemML/mechanoChemML/workflows/new_workflow_name``
+- workflow description to ``mechanoChemML/docs/new_workflow_name.rst``
+- workflow example to ``mechanoChemML/examples/new_workflow_name/new_example_name``
+- workflow example data to ``mechanoChemML/examples/new_workflow_name/new_example_name/data``
+- workflow example description to ``mechanoChemML/docs/new_workflow_name.rst``
+- ideally, some testing functions to ``mechanoChemML/mechanoChemML/testing``
+
+
 Other contribution
 ==================
 

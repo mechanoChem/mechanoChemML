@@ -6,17 +6,16 @@ import numpy as np
 import shutil
 from shutil import copyfile
 from mechanoChemML.src.idnn import IDNN, find_wells
-from mechanoChemML.src.gradient_layer import Gradient
 from mechanoChemML.src.transform_layer import Transform
-from mechanoChemML.workflows.active_learning.Example1_NiAl.hp_search import hyperparameterSearch
+from mechanoChemML.workflows.active_learning.hp_search import hyperparameterSearch
 
 from importlib import import_module
-from mechanoChemML.workflows.active_learning.Example1_NiAl.CASM_wrapper import submitCASM, compileCASMOutput, loadCASMOutput
+from mechanoChemML.workflows.active_learning.data_generation_wrapper import submitCASM, compileCASMOutput, loadCASMOutput
 import tensorflow as tf
 from sobol_seq import i4_sobol
 
-import keras
-from keras.callbacks import CSVLogger, ReduceLROnPlateau, EarlyStopping
+from tensorflow import keras
+from tensorflow.keras.callbacks import CSVLogger, ReduceLROnPlateau, EarlyStopping
 from configparser import ConfigParser
 
 ############ Active learning class #######
@@ -74,7 +73,11 @@ class Active_learning(object):
         self.N_hp_sets = int(config['HYPERPARAMETERS']['N_sets'])
         self.Dropout = float(config['HYPERPARAMETERS']['Dropout'])
         self.dim = 4
-        
+        if self.job_manager == 'PC' and self.N_jobs > 1:
+            self.N_jobs = 1
+            self.casm_project_dir = '.'
+            print("WARNING: only one processor is allowed for running on your personal computer; CPUNum is overridden by 1")
+                        
     ########################################
 
     def create_test_set(self,N_points,dim,bounds=[0.,1.],seed=1):
@@ -220,15 +223,15 @@ class Active_learning(object):
         csv_logger = CSVLogger('training/training_{}.txt'.format(rnd),append=True)
         reduceOnPlateau = ReduceLROnPlateau(factor=0.5,patience=100,min_lr=1.e-4)
         earlyStopping = EarlyStopping(patience=150)
-        self.idnn.fit([eta_train0,eta_train,eta_train],
-                      [100.*g_train0,100.*mu_train],
+        self.idnn.fit([eta_train0,eta_train,0*eta_train],
+                      [100.*g_train0,100.*mu_train,0*mu_train],
                       validation_split=0.25,
                       epochs=self.Epochs,
                       batch_size=self.Batch_size,
                       callbacks=[csv_logger,
                                  reduceOnPlateau,
                                  earlyStopping])
-        self.idnn.save('idnn_{}.h5'.format(rnd))
+        self.idnn.save('idnn_{}'.format(rnd))
 
     ########################################
         
@@ -248,10 +251,12 @@ class Active_learning(object):
 
             if rnd==1:
                 self.hyperparameter_search(rnd)
-                custom_objects = {'Gradient': Gradient, 
-                                  'Transform': Transform(self.IDNN_transforms())}
-                self.idnn = keras.models.load_model('idnn_1.h5',
+                custom_objects = {'Transform': Transform(self.IDNN_transforms())}
+                
+                unique_inputs = self.idnn.unique_inputs
+                self.idnn = keras.models.load_model('idnn_1',
                                                     custom_objects=custom_objects)
+                self.idnn.unique_inputs = unique_inputs
                 
             self.surrogate_training(rnd)
             self.local_sampling(2*rnd+1)

@@ -1,9 +1,8 @@
-import keras
+from tensorflow import keras
 import sys, os
 
 import numpy as np
 from mechanoChemML.src.idnn import IDNN
-from mechanoChemML.src.gradient_layer import Gradient
 from mechanoChemML.src.transform_layer import Transform
 import json
 
@@ -18,9 +17,6 @@ def transforms(x):
     
     return [h0,h1,h2,h3]
 
-#print('load model...')
-#idnn = keras.models.load_model(os.path.dirname(__file__)+'/idnn_test.h5',custom_objects={'Gradient': Gradient})
-
 print('recreate model...')
 hidden_layers = [70, 70]
 idnn = IDNN(4,
@@ -28,10 +24,11 @@ idnn = IDNN(4,
             transforms=transforms,
             final_bias=True)
 
+idnn.build(input_shape=(1,4))
 for i in range(len(hidden_layers)+1):
-    w = np.loadtxt(os.path.dirname(__file__)+'/test_weights/weights_{}.txt'.format(i),ndmin=2)
-    b = np.loadtxt(os.path.dirname(__file__)+'/test_weights/bias_{}.txt'.format(i),ndmin=1)
-    idnn.layers[i+2].set_weights([w,b])
+    w = np.loadtxt(os.path.dirname(__file__)+'/surrogate_weights/weights_{}.txt'.format(i),ndmin=2)
+    b = np.loadtxt(os.path.dirname(__file__)+'/surrogate_weights/bias_{}.txt'.format(i),ndmin=1)
+    idnn.dnn_layers[i].set_weights([w,b])
 
 print('read input...')
 # Read in the casm Monte Carlo input file

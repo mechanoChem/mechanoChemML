@@ -12,7 +12,6 @@ def numCurrentJobs(name):
         num = 1
         print('Error with numCurrentJobs: ',check_output(['squeue','-n',name],stderr=STDOUT).decode("utf-8"))
     return num
-#return len(check_output(['squeue','-n',name],stderr=STDOUT).decode("utf-8").split('\n'))-2
 
 def checkPending(name):
     try:

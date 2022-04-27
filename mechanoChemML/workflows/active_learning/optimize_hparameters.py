@@ -4,9 +4,9 @@ import sys, os
 
 import numpy as np
 from mechanoChemML.src.idnn import IDNN
-from mechanoChemML.workflows.active_learning.Example1_NiAl.CASM_wrapper import loadCASMOutput
+from mechanoChemML.workflows.active_learning.data_generation_wrapper import loadCASMOutput
 import sys
-import keras
+from tensorflow import keras
 
 set_i = int(sys.argv[1])
 read = int(sys.argv[2])
@@ -72,14 +72,14 @@ g_train0 = np.zeros((eta_train.shape[0],1))
         
 # train
 history = idnn.fit([eta_train0,eta_train,eta_train],
-                   [100.*g_train0,100.*mu_train],
+                   [100.*g_train0,100.*mu_train,0*mu_train],
                    validation_split=0.25,
                    epochs=250,
                    batch_size=100,
                    callbacks=[csv_logger,
                               reduceOnPlateau,
                               earlyStopping])
-idnn.save('idnn_{}_{}.h5'.format(rnd,set_i))
+idnn.save('idnn_{}_{}'.format(rnd,set_i))
 
 valid_loss = history.history['val_loss'][-1]
 

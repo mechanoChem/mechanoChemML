@@ -12,4 +12,4 @@
 #BSUB -q gpu_p100			# choose the queue to use: gpu_p100, normal or large_memory #BSUB -m "gpu-cn011" 
 
 export CUDA_VISIBLE_DEVICES=''
-~/mechanochemml-release/mechanoChemML/workflows/active_learning/Example1_NiAl/main_test.py
+python main_test.py

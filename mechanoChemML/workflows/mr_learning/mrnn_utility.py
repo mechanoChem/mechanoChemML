@@ -795,7 +795,7 @@ def prepare_data_from_csv_file(config, normalization_flag=True, verbose=0):
             dataset_frame = None
             pass
     #-------------NN label shift------------------
-        import mechanoChemML.workflows.multi_resolution_learning.mrnn_models as mrnn_models
+        import mechanoChemML.workflows.mr_learning.mrnn_models as mrnn_models
         mrnn_models.shift_labels(config, dataset, dataset_index, dataset_frame, data_file)
     #------------------following is a little bit non-modulated, easy for bugs ---------------------------
 
@@ -1079,7 +1079,7 @@ def load_all_data_from_csv(config, normalization_flag=True, verbose=0):
             dataset_frame = None
             pass
     #-------------NN label shift------------------
-        import mechanoChemML.workflows.multi_resolution_learning.mrnn_models as mrnn_models
+        import mechanoChemML.workflows.mr_learning.mrnn_models as mrnn_models
         mrnn_models.shift_labels(config, dataset, dataset_index, dataset_frame, data_file)
 
     # print('---derivative fields: ', derivative_fields)

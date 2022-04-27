@@ -41,42 +41,53 @@ def submitCASM(N_jobs,mu_test,eta,rnd,casm_project_dir='.',test=False,job_manage
 
             with open('job_{0}/monte_settings_{0}.json'.format(job+1),'w') as outFile:
                 json.dump(inputF,outFile,indent=4)
-
-    command = ['cwd=$PWD',
-               'mv job_$LSB_JOBINDEX {}'.format(casm_project_dir),
-               'cd {}/job_$LSB_JOBINDEX'.format(casm_project_dir),
-               '$CASMPREFIX/bin/casm monte -s monte_settings_$LSB_JOBINDEX.json',
-               'cd ../',
-               'mv job_$LSB_JOBINDEX $cwd']
+    
     if test:
-        if job_manager == 'LSF':
+        # using a data-generation surrogate instead of CASM
+        if job_manager == 'PC':
+            command = 'cd job_1; python -u {}/data_generation_surrogate.py monte_settings_1.json; cd ../'.format(os.path.dirname(__file__))
+        elif job_manager == 'LSF':
             command = ['cd job_$LSB_JOBINDEX'.format(casm_project_dir),
-                       'python -u {}/CASM_surrogate.py monte_settings_$LSB_JOBINDEX.json'.format(os.path.dirname(__file__)),
+                       'python -u {}/data_generation_surrogate.py monte_settings_$LSB_JOBINDEX.json'.format(os.path.dirname(__file__)),
                        'cd ../'] 
         elif job_manager == 'slurm':
             command = ['cd job_$SLURM_ARRAY_TASK_ID'.format(casm_project_dir),
-                       'python -u {}/CASM_surrogate.py monte_settings_$SLURM_ARRAY_TASK_ID.json'.format(os.path.dirname(__file__)),
-                       'cd ../'] 
+                       'python -u {}/data_generation_surrogate.py monte_settings_$SLURM_ARRAY_TASK_ID.json'.format(os.path.dirname(__file__)),
+                       'cd ../']
+    else:
+        if job_manager == 'PC':
+            raise Exception('JOB_MANAGER cannot be set to PC -- running CASM on PC is not supported. You can run python main_test.py to use a surrogate for data generation')
+        else:
+            command = ['cwd=$PWD',
+                    'mv job_$LSB_JOBINDEX {}'.format(casm_project_dir),
+                    'cd {}/job_$LSB_JOBINDEX'.format(casm_project_dir),
+                    '$CASMPREFIX/bin/casm monte -s monte_settings_$LSB_JOBINDEX.json',
+                    'cd ../',
+                    'mv job_$LSB_JOBINDEX $cwd']
 
-    if job_manager == 'LSF':
-        from mechanoChemML.workflows.active_learning.LSF_manager import submitJob, waitForAll
-        specs = {'job_name':'CASM_[1-{}]'.format(N_jobs),
-                 'queue': 'gpu_p100',
-                 'output_folder':'outputFiles'}
-        name = 'CASM*'
-    elif job_manager == 'slurm':
-        from mechanoChemML.workflows.active_learning.slurm_manager import submitJob, waitForAll
-        specs = {'job_name':'CASM',
-                 'array': '1-{}'.format(N_jobs),
-                 'account': 'TG-MCH200011',
-                 'walltime': '2:00:00',
-                 'total_memory':'3G',
-                 'output_folder':'outputFiles'}
-        name = 'CASM'
-        
-    submitJob(command,specs)
+    if job_manager == 'PC':
+        from subprocess import call
+        call(command,shell=True)
+    else:
+        if job_manager == 'LSF':
+            from mechanoChemML.workflows.active_learning.LSF_manager import submitJob, waitForAll
+            specs = {'job_name':'CASM_[1-{}]'.format(N_jobs),
+                    'queue': 'gpu_p100',
+                    'output_folder':'outputFiles'}
+            name = 'CASM*'
+        elif job_manager == 'slurm':
+            from mechanoChemML.workflows.active_learning.slurm_manager import submitJob, waitForAll
+            specs = {'job_name':'CASM',
+                    'array': '1-{}'.format(N_jobs),
+                    'account': 'TG-MCH200011',
+                    'walltime': '2:00:00',
+                    'total_memory':'3G',
+                    'output_folder':'outputFiles'}
+            name = 'CASM'
+            
+        submitJob(command,specs)
+        waitForAll(name)
 
-    waitForAll(name)
 
 def compileCASMOutput(rnd):
     kappa = []
