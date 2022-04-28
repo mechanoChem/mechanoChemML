@@ -6,7 +6,9 @@ List of contributors (alphabetical order):
 * Arjun Sundararajan
 * Elizabeth Livingston
 * Greg Teichert
+* Jamie Holber
 * Matt Duschenes
+* Mostafa Faghih Shojaei
 * Sid Srivastava
 * Xiaoxuan Zhang
 * Zhenlin Wang
@@ -38,4 +40,4 @@ This code has been developed under the support of the following:
 
 If you write a paper using results obtained with the help of this code, please consider citing
 
-- X. Zhang, G.H. Teichert, Z. Wang, M. Duschenes, S. Srivastava, A. Sunderarajan, E. Livingston, K. Garikipati (2021), mechanoChemML: A software library for machine learning in computational materials physics, arXiv preprint [arXiv:2112.04960](https://arxiv.org/abs/2112.04960).
+- X. Zhang, G.H. Teichert, Z. Wang, M. Duschenes, S. Srivastava, A. Sunderarajan, E. Livingston, J. Holber, M. Shojaei, K. Garikipati (2021), mechanoChemML: A software library for machine learning in computational materials physics, arXiv preprint [arXiv:2112.04960](https://arxiv.org/abs/2112.04960).

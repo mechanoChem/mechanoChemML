@@ -7,7 +7,9 @@ mechanoChemML is a machine learning software library for computational materials
 * Arjun Sundararajan
 * Elizabeth Livingston
 * Greg Teichert
+* Jamie Holber
 * Matt Duschenes
+* Mostafa Faghih Shojaei
 * Sid Srivastava
 * Xiaoxuan Zhang
 * Zhenlin Wang
@@ -59,7 +61,7 @@ Cite mechanoChemML
 ==================
 If you find this code useful in your research, please consider citing:
 
-  X. Zhang, G.H. Teichert, Z. Wang, M. Duschenes, S. Srivastava, A. Sunderarajan, E. Livingston, K. Garikipati (2021), mechanoChemML: A software library for machine learning in computational materials physics, arXiv preprint `arXiv:2112.04960 <https://arxiv.org/abs/2112.04960>`_.
+  X. Zhang, G.H. Teichert, Z. Wang, M. Duschenes, S. Srivastava, A. Sunderarajan, E. Livingston, J. Holber, M. Shojaei, K. Garikipati (2021), mechanoChemML: A software library for machine learning in computational materials physics, arXiv preprint `arXiv:2112.04960 <https://arxiv.org/abs/2112.04960>`_.
 
 .. toctree::
    :caption: mechanoChemML
