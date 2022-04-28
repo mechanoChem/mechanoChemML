@@ -72,7 +72,7 @@ Compile local documentation
 
 .. code-block:: bash
 
-  $ (mechanochemml) cd mechanoChemML-master/doc
+  $ (mechanochemml) cd mechanoChemML-master/docs
 
   $ (mechanochemml) make html
 
