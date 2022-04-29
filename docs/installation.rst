@@ -41,6 +41,11 @@ The following command will install the `mechanoChemML` library and the required 
 
   $ (mechanochemml) pip install mechanoChemML
 
+To upgrade the `mechanoChemML` library to the newest version released on PyPI, run 
+
+.. code-block:: bash
+
+  $ (mechanochemml) pip install --upgrade --force-reinstall --no-deps mechanoChemML
 
 Download examples
 =================
