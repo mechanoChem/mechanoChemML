@@ -89,6 +89,8 @@ For developers, one can use the following command to re-compile the `mechanoChem
 
   $ (mechanochemml) pip3 install -e .
 
+Note: for local code development, one should avoid space in the folder name. 
+
 Run examples
 ============
 
