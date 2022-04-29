@@ -20,6 +20,9 @@ setup(
         url='https://github.com/mechanoChem/mechanoChemML',
         author='Xiaoxuan Zhang',
         author_email='zhangxiaoxuan258@gmail.com',
+        package_dir={'mechanoChemML': 'mechanoChemML'},
+        package_data={'mechanoChemML': [ 
+        'workflows/active_learning/monte_settings.json.tmpl', 'workflows/active_learning/surrogate_weights/*.txt']},
         classifiers=[
             "Programming Language :: Python :: 3.7",
             "License :: OSI Approved :: BSD License",
