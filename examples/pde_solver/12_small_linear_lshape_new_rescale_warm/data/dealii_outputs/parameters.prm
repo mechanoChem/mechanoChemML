@@ -1,0 +1,76 @@
+#parameters file
+
+subsection Problem
+set print_parameter = false
+
+set dt = 1.0
+set totalTime = 9
+set current_increment = 0
+set off_output_index=0
+set current_time = 0
+set resuming_from_snapshot = false
+set save_snapshot=false
+#set mesh = /Users/wzhenlin/GitLab/researchCode/brainMorph/mesh/testMesh.msh
+set mesh = l-shape-30.inp
+#set mesh = l-shape-32.inp
+set output_directory = ./
+set snapshot_directory = ./
+
+#FEM
+set volume_quadrature = 2
+set face_quadrature = 2 
+
+end
+
+subsection Geometry
+set X_0 = 0
+set Y_0 = 0
+set Z_0 = 0
+set X_end = 0.967741935
+set Y_end = 0.967741935
+#set X_end = 1
+#set Y_end = 1
+set Z_end = 1 #no need to 2D
+
+set element_div_x=30
+set element_div_y=30
+set element_div_z=5 #no need to 2D
+end
+
+subsection Linear elasticity
+
+set YoungsModulus = 25
+set PoissonsRatio = 0.3
+
+set NeumannBcIdx = 0
+set NeumannBcIdy = 0
+set dNeumannTnx = 0.0
+set dNeumannTny = 0.0
+
+set FixBcIdx = 2
+set FixBcIdy = 2
+set DirichletBcIdx = 0
+set DirichletBcIdy = 1
+set dDirichletUx = 0.0
+set dDirichletUy = 0.01
+
+end
+						
+#
+# parameters reserved for deal.ii first level code:
+#nonLinear_method : classicNewton
+#solver_method (direct) : PETScsuperLU, PETScMUMPS
+#solver_method (iterative) : PETScGMRES PETScBoomerAMG
+#relative_norm_tolerance, absolute_norm_tolerance, max_iterations
+#
+subsection Nonlinear_solver
+		set nonLinear_method = classicNewton
+		set relative_norm_tolerance = 1.0e-12
+		set absolute_norm_tolerance = 1.0e-12
+		set max_iterations = 20
+end
+						
+subsection Linear_solver
+		set solver_method = PETScsuperLU #PETScMUMPS
+		set system_matrix_symmetricFlag = false # default is false
+end

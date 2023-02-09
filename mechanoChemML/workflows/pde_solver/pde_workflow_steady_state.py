@@ -35,6 +35,28 @@ from mechanoChemML.src.nn_models import BNN_user_weak_pde_general
 import mechanoChemML.src.pde_layers as pde_layers
 from mechanoChemML.workflows.pde_solver.pde_utility import plot_PDE_solutions, plot_fields, split_data, expand_dataset, exe_cmd, BatchData, plot_one_field_hist, plot_one_field_stat, plot_one_field,plot_PDE_solutions_new
 
+print('host:', socket.gethostname())
+if socket.gethostname() == 'Destiny':
+    physical_devices = tf.config.list_physical_devices('GPU')
+    try:
+      tf.config.experimental.set_memory_growth(physical_devices[0], True)
+    except:
+      # Invalid device or cannot modify virtual devices once initialized.
+      pass
+# elif socket.gethostname().find('gpu-cn') >= 0:
+    # physical_devices = tf.config.list_physical_devices('GPU')
+    # try:
+      # tf.config.experimental.set_memory_growth(physical_devices[0], True)
+    # except:
+      # # Invalid device or cannot modify virtual devices once initialized.
+      # pass
+    # os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
+    # print('all devices: ', physical_devices)
+    # print("dynamic memory growth host", physical_devices)
+else:
+    physical_devices = tf.config.list_physical_devices('GPU')
+    print('all devices: ', physical_devices)
+    print("no dynamic memory growth")
 
 class PDEWorkflowSteadyState:
     """
@@ -48,6 +70,7 @@ class PDEWorkflowSteadyState:
         self.restart_dir_to_load = ''
         self.now_str = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
         self.today_str = datetime.datetime.now().strftime("%Y-%m-%dT%H-%M")
+        self.normalization_factor = 2.0
 
         self._parse_sys_args()
         if self.args.restartfrom:
@@ -99,11 +122,7 @@ class PDEWorkflowSteadyState:
         self.data_path = self.config['NN']['DataPath']
         self.NNOptimizer = self.config['NN']['Optimizer']
         self.LR0 = float(self.config['NN']['LearningRate'])
-
-        try:
-            self.NeumannFirst = int(self.config['NN']['NeumannFirst'])
-        except:
-            self.NeumannFirst = 0
+        self.NeumannFirst = int(self.config['NN']['NeumannFirst'])
 
         try:
             self.FixLoc = int(self.config['NN']['FixLoc'])
@@ -151,6 +170,8 @@ class PDEWorkflowSteadyState:
 
         self.restart_dir = 'restart/' +  self.filename_base
         self.filename = 'results/' +  self.filename_base
+
+        print({section: dict(self.config[section]) for section in self.config.sections()})
 
     def _load_saved_states(self):
         """ load saved information from the pickle file during restart """
@@ -274,19 +295,6 @@ class PDEWorkflowSteadyState:
             only_neumann_data (bool): only load the BVP setup with Neumann BCs. Use this flag when train the NN with Neumann BCs first.
             test_folder (str): the default location of data is in 'DNS'. If test_folder is specified, the data in this folder will be loaded for testing purpose.
         """
-
-        # waiting for gpu resources without killing the program
-        # while (True):
-            # try:
-                # tf.math.ceil(0.1)
-                # cmd = "echo 'gpu resource is allowed' > " + self.filename+'-gpu.log'
-                # exe_cmd(cmd)
-                # break
-            # except:
-                # cmd = "echo 'gpu resource is not available, waiting...' > " + self.filename+'-gpu.log'
-                # exe_cmd(cmd)
-                # time.sleep(1)
-                # pass
 
         self.features = None
         self.labels = None
@@ -1070,6 +1078,82 @@ class PDEWorkflowSteadyState:
                 dof_name = self.dof_name,
                 filename = 'results/' + self.problem_name + '-R.png')
 
+    def test_split(self, split_number, total_splits, test_folder=''):
+        """
+        Make prediction with the surrogate model for large dataset
+
+        Split into small chunks
+
+        Args:
+            test_folder (str): folder name under relative to the DataPath in the config.ini file.
+
+        Note:
+            - If test_folder is not specified, this subroutine will make prediction based on test_seq that is split from the training dataset. 
+            - If test_folder is specified, this subroutine will load all the data from the folder to test_seq to make prediction.
+            - For deterministic model, the MonteCarloNum from config.ini is over written to 1.
+
+        """
+        if test_folder == '':
+            only_testing = False
+            # return
+        else:
+            only_testing = True
+            test_folder.replace('/', '')
+            self._load_data(test_folder=test_folder + '/')
+
+        if self.args.restartfrom:
+            if self.model is None:
+                self._build_model()
+                self._train()
+
+        print(' ... Running monte carlo inference')
+        print('size of test dataset, test label: ', np.shape(self.test_dataset), np.shape(self.test_label))
+        # Compute log prob of heldout set by averaging draws from the model:
+        # p(heldout | train) = int_model p(heldout|model) p(model|train)
+        #                   ~= 1/n * sum_{i=1}^n p(heldout | model_i)
+        # where model_i is a draw from the posterior p(model|train).
+        predictions = []
+        print(' length test_seq', len(self.test_seq))
+        sample_index = np.array(list(range(0, len(self.test_seq))))
+        # print(sample_index)
+        all_splits = np.array_split(sample_index, total_splits)
+        this_split = all_splits[split_number]
+        print(this_split)
+        self.test_seq = BatchData(data=(self.test_dataset[this_split], self.test_label[this_split]), batch_size=128)
+        # self.this_test_seq = self.test_seq[this_split]
+        print('this split test seq', len(self.test_seq))
+        # exit(0)
+        # if not test_folder:
+            # self.monte_carlo_num = 200
+
+        if self.monte_carlo_num > 1:
+            self.monte_carlo_num = 50
+
+        for _ in range(self.monte_carlo_num):
+            y_pred = self.model.predict(self.test_seq, verbose=1) 
+            if self.UseTwoNeumannChannel :
+                inputs = y_pred[:,:,:,self.dof:4*self.dof] # New Neumann Channel
+            else:
+                inputs = y_pred[:,:,:,self.dof:3*self.dof] # Old Neumann Channel
+            y_pred = y_pred[:,:,:,0:self.dof]
+            y_pred= self._compute_residual(inputs, y_pred, only_y_pred=True)
+            predictions.append(y_pred)
+
+        probs = tf.stack(predictions, axis=0)
+        # print(" ... probs ...", np.shape(probs))
+        mean_probs = tf.reduce_mean(probs, axis=0)
+        # print(" ... mean_probs ...", np.shape(mean_probs))
+        std_probs = tf.math.reduce_std(probs, axis=0)
+        # print(" ... std_probs ...", np.shape(std_probs))
+        expand_mean_probs = tf.tile(tf.expand_dims(mean_probs, axis=0), [self.monte_carlo_num, 1, 1, 1, 1] )
+        # print(" ... expand mean_probs ...", np.shape(expand_mean_probs))
+        var_probs = tf.reduce_mean( tf.math.pow(probs - expand_mean_probs, 2), axis=0)
+        # print(" ... var_probs ...", np.shape(var_probs))
+
+        if only_testing:
+            return self.test_dataset[this_split[0]:this_split[-1]+1, :, :, 0:3*self.dof], self.test_label[this_split[0]:this_split[-1]+1, :, :, 0:self.dof], mean_probs[:, :, :, 0:self.dof], var_probs[:, :, :, 0:self.dof], std_probs[:, :, :, 0:self.dof]
+        else:
+            print('Please only use test_split for testing purpose')
 
     def test(self, test_folder='', plot_png=True, output_reaction_force=False):
         """
@@ -1107,13 +1191,16 @@ class PDEWorkflowSteadyState:
         print(len(self.test_seq))
         # if not test_folder:
             # self.monte_carlo_num = 200
+        # self.monte_carlo_num = 5
+        print('WARNING: manually change MC# = 5 for large dataset sampling purpose')
         for _ in range(self.monte_carlo_num):
             y_pred = self.model.predict(self.test_seq, verbose=1) 
 
             # # for scaling test
+            # print('start of scaling test: len of train_seq: ', len(self.train_seq) * self.batch_size, )
             # start_time = time.time()
-            # y_pred = self.model.predict(self.test_seq, verbose=1) 
-            # print("--- %s m seconds ---" % ((time.time() - start_time) * 1000/4096))
+            # y_pred = self.model.predict(self.train_seq, verbose=1) 
+            # print("--- %s m seconds ---" % ((time.time() - start_time) * 1000/len(self.train_seq) / self.batch_size))
             # exit(0)
 
             if self.UseTwoNeumannChannel :
@@ -1146,12 +1233,12 @@ class PDEWorkflowSteadyState:
             R_f = tf.stack(reaction_force, axis=0)
             mean_R_f = tf.reduce_mean(R_f, axis=0) 
             std_R_f = tf.math.reduce_std(R_f, axis=0) 
-            # print(np.shape(mean_R_f), np.shape(std_R_f))
             F_mean = tf.reduce_sum(mean_R_f, axis=[1,2])
             F_std = tf.reduce_sum(std_R_f, axis=[1,2])
             print('reaction force(mean): ', F_mean)
             print('reaction force(std): ', F_std)
-            Loadings = 2.0 * tf.reduce_max(inputs, axis=[1,2])-1
+            Loadings = self.normalization_factor * (tf.reduce_max(inputs, axis=[1,2])-0.5)
+            print('loadings', Loadings, tf.shape(inputs))
             _filename = self.filename + '-' + test_folder + 'F' + '.npy'
             all_force_info = tf.concat([Loadings, F_mean, F_std], axis=1)
             np.save(_filename, all_force_info)

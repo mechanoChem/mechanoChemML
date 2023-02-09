@@ -1,0 +1,65 @@
+#!/bin/bash
+#SBATCH --job-name="lshape"
+#SBATCH --output="lshape.%j.%N.out"
+#SBATCH --partition=gpu-shared
+#SBATCH --nodes=1
+#SBATCH --gpus=1
+#SBATCH --cpus-per-task=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --mem=93G
+#SBATCH --account=mia326
+#SBATCH --no-requeue
+#SBATCH -t 47:59:00
+
+module purge
+module load gpu
+module load cuda
+module load amber
+export PYTHONPATH=$PYTHONPATH:/expanse/lustre/projects/mia326/xxzh/mechanochem-ml-code
+#python3 main.py 'cnn.ini' 
+#python3 main.py 'cnn-adam.ini' 
+#python3 main.py 'cnn-large-neck.ini' 
+python3 main.py 'cnn-large-neck2.ini' 
+
+#-rf results/2022-03-19T21-09-exp-5-59-BNN-bnn-5-x10-B256-E20000-I100-mc100-1S2.0e-04-2S1.0e-03-Nadam-2.0e-06-data-20220319210943.pickle -c 20000
+
+#python3 main.py 'bnn.ini'
+#python3 main.py 'bnn-2.ini'
+#python3 main.py 'bnn-3.ini'
+#python3 main.py 'bnn-4.ini'
+#python3 main.py 'bnn-6.ini'
+#python3 main.py 'bnn-7.ini'
+
+#export filename=small-32x32-octagon-1bvp-cnn.ini
+#export filename_tmp=tmp1.ini
+
+#cp $filename $filename_tmp
+
+#sed -i '/Epochs/cEpochs = 5' $filename_tmp
+
+#sed -i '/BatchSize/cBatchSize = 128' $filename_tmp
+#python3 main.py $filename_tmp 
+
+#sed -i '/BatchSize/cBatchSize = 256' $filename_tmp
+#python3 main.py $filename_tmp 
+
+#sed -i '/BatchSize/cBatchSize = 512' $filename_tmp
+#python3 main.py $filename_tmp 
+
+#sed -i '/BatchSize/cBatchSize = 1024' $filename_tmp
+#python3 main.py $filename_tmp 
+
+#sed -i '/BatchSize/cBatchSize = 2048' $filename_tmp
+#python3 main.py $filename_tmp 
+
+#sed -i '/BatchSize/cBatchSize = 3072' $filename_tmp
+#python3 main.py $filename_tmp 
+
+#sed -i '/BatchSize/cBatchSize = 4096' $filename_tmp
+#python3 main.py $filename_tmp 
+
+#sed -i '/BatchSize/cBatchSize = 6144' $filename_tmp
+#python3 main.py $filename_tmp 
+
+#sed -i '/BatchSize/cBatchSize = 8192' $filename_tmp
+#python3 main.py $filename_tmp 

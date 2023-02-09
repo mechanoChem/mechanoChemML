@@ -524,6 +524,7 @@ def ComputeNeumannBoundaryResidualNodalData(data_input, dh, dof, padding='SAME')
 
 
     if dof == 1:
+        # need to use noramlization_factor to make it consistent.
         # Scale the Neumann BC value back to the original one
         # original scale in VtuDataGenerateFixedc.py: 
         #   - data = (data + (self.upperlimit - self.lowerlimit) * 0.5 ) * 0.5
@@ -1166,6 +1167,7 @@ def ComputeNeumannBoundaryResidualNodalDataNew(data_input, dh, dof, padding='SAM
     if pflag: print('domain_mask', domain_mask[0,:,:,0])
 
     #--------------- Neumann BCs ------------------
+    # todo: to use a normalization_factor here
     Neumann_max = 1.0
     Neumann_min = -1.0
     neumann_data = data_input[:,:,:,dof:dof+dof+dof]
