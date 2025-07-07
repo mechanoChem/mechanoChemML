@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE Xdmf SYSTEM "Xdmf.dtd" []>
+<Xdmf Version="3.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <Domain>
+    <Grid Name="TimeSeries" GridType="Collection" CollectionType="Temporal">
+      <Grid Name="mesh" GridType="Uniform">
+        <Topology NumberOfElements="66516" TopologyType="Tetrahedron" NodesPerElement="4">
+          <DataItem Dimensions="66516 4" NumberType="UInt" Format="HDF">Tendon20231012_VSIHGOPercDiffLagrange_Torn_1_LF1E_6.h5:/Mesh/0/mesh/topology</DataItem>
+        </Topology>
+        <Geometry GeometryType="XYZ">
+          <DataItem Dimensions="14041 3" Format="HDF">Tendon20231012_VSIHGOPercDiffLagrange_Torn_1_LF1E_6.h5:/Mesh/0/mesh/geometry</DataItem>
+        </Geometry>
+        <Time Value="0" />
+        <Attribute Name="['LagrangianStrain_00']" AttributeType="Scalar" Center="Node">
+          <DataItem Dimensions="14041 1" Format="HDF">Tendon20231012_VSIHGOPercDiffLagrange_Torn_1_LF1E_6.h5:/VisualisationVector/0</DataItem>
+        </Attribute>
+        <Attribute Name="['LagrangianStrain_01']" AttributeType="Scalar" Center="Node">
+          <DataItem Dimensions="14041 1" Format="HDF">Tendon20231012_VSIHGOPercDiffLagrange_Torn_1_LF1E_6.h5:/VisualisationVector/1</DataItem>
+        </Attribute>
+        <Attribute Name="['LagrangianStrain_02']" AttributeType="Scalar" Center="Node">
+          <DataItem Dimensions="14041 1" Format="HDF">Tendon20231012_VSIHGOPercDiffLagrange_Torn_1_LF1E_6.h5:/VisualisationVector/2</DataItem>
+        </Attribute>
+        <Attribute Name="['LagrangianStrain_10']" AttributeType="Scalar" Center="Node">
+          <DataItem Dimensions="14041 1" Format="HDF">Tendon20231012_VSIHGOPercDiffLagrange_Torn_1_LF1E_6.h5:/VisualisationVector/3</DataItem>
+        </Attribute>
+        <Attribute Name="['LagrangianStrain_11']" AttributeType="Scalar" Center="Node">
+          <DataItem Dimensions="14041 1" Format="HDF">Tendon20231012_VSIHGOPercDiffLagrange_Torn_1_LF1E_6.h5:/VisualisationVector/4</DataItem>
+        </Attribute>
+        <Attribute Name="['LagrangianStrain_12']" AttributeType="Scalar" Center="Node">
+          <DataItem Dimensions="14041 1" Format="HDF">Tendon20231012_VSIHGOPercDiffLagrange_Torn_1_LF1E_6.h5:/VisualisationVector/5</DataItem>
+        </Attribute>
+        <Attribute Name="['LagrangianStrain_20']" AttributeType="Scalar" Center="Node">
+          <DataItem Dimensions="14041 1" Format="HDF">Tendon20231012_VSIHGOPercDiffLagrange_Torn_1_LF1E_6.h5:/VisualisationVector/6</DataItem>
+        </Attribute>
+        <Attribute Name="['LagrangianStrain_21']" AttributeType="Scalar" Center="Node">
+          <DataItem Dimensions="14041 1" Format="HDF">Tendon20231012_VSIHGOPercDiffLagrange_Torn_1_LF1E_6.h5:/VisualisationVector/7</DataItem>
+        </Attribute>
+        <Attribute Name="['LagrangianStrain_22']" AttributeType="Scalar" Center="Node">
+          <DataItem Dimensions="14041 1" Format="HDF">Tendon20231012_VSIHGOPercDiffLagrange_Torn_1_LF1E_6.h5:/VisualisationVector/8</DataItem>
+        </Attribute>
+      </Grid>
+    </Grid>
+  </Domain>
+</Xdmf>
