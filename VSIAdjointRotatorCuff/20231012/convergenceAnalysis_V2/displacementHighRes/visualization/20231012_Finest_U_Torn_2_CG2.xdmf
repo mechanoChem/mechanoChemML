@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Xdmf Version="3.0">
+  <Domain>
+    <Grid Name="mesh" GridType="Uniform">
+      <Topology NumberOfElements="182467" TopologyType="Tetrahedron" NodesPerElement="4">
+        <DataItem Dimensions="182467 4" NumberType="UInt" Format="HDF">20231012_Finest_U_Torn_2_CG2.h5:/Mesh/mesh/topology</DataItem>
+      </Topology>
+      <Geometry GeometryType="XYZ">
+        <DataItem Dimensions="37083 3" Format="HDF">20231012_Finest_U_Torn_2_CG2.h5:/Mesh/mesh/geometry</DataItem>
+      </Geometry>
+      <Attribute Name="U" AttributeType="Vector" Center="Node">
+        <DataItem Dimensions="37083 3" Format="HDF">20231012_Finest_U_Torn_2_CG2.h5:/VisualisationVector/0</DataItem>
+      </Attribute>
+    </Grid>
+  </Domain>
+</Xdmf>

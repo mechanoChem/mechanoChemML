@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Xdmf Version="3.0">
+  <Domain>
+    <Grid Name="mesh" GridType="Uniform">
+      <Topology NumberOfElements="27389" TopologyType="Tetrahedron" NodesPerElement="4">
+        <DataItem Dimensions="27389 4" NumberType="UInt" Format="HDF">20231012_Medium_UVW_Intact.h5:/Mesh/mesh/topology</DataItem>
+      </Topology>
+      <Geometry GeometryType="XYZ">
+        <DataItem Dimensions="6012 3" Format="HDF">20231012_Medium_UVW_Intact.h5:/Mesh/mesh/geometry</DataItem>
+      </Geometry>
+      <Attribute Name="UVW" AttributeType="Vector" Center="Node">
+        <DataItem Dimensions="6012 3" Format="HDF">20231012_Medium_UVW_Intact.h5:/VisualisationVector/0</DataItem>
+      </Attribute>
+    </Grid>
+  </Domain>
+</Xdmf>
